@@ -1,1 +1,1 @@
-web: java -jar target/internet-shop-1.0-SNAPSHOT.jar -Dserver.port=$PORT
+web: java -jar target/internet-shop-1.0-SNAPSHOT.jar
