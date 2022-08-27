@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/header :: header-css">
+    <title>Bucket</title>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+
+<div class="container" th:if="${!bucket.bucketDetails.isEmpty()}">
+    <h2 th:text="#{cart.title}"></h2>
+    <!--    <br>
+        <ul class="nav nav-pills">
+            <li><a href="/">Каталог</a></li>
+            <li class="active"><a rel="nofollow" href="cart.html">Корзина<span id="total-cart-count"
+                                                                               class="badge"></span></a></li>
+        </ul>-->
+    <br>
+    <!--    <div class="table-responsive" th:with="TotalPrice=0">-->
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered border-white">
+            <thead>
+            <tr align="center">
+                <th>Category</th>
+                <th>Vendor Code</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Amount</th>
+                <th>Total</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr id="cart" th:each="detail : ${bucket.bucketDetails}">
+                <td th:text="${detail.getCategory()}">Vendor Code</td>
+                <td th:text="${detail.getVendorCode}">Vendor Code</td>
+                <td th:text="${detail.getTitle()}">Title</td>
+                <td th:text="${detail.getDescription()}">Description</td>
+                <td th:text="${detail.getPrice()}" align="right">Price</td>
+                <td align="center">
+                    <!--                    <span
+                                                class="cart-item__btn-dec-count js-change-count"
+                                                title="Уменьшить на 1"
+                                                data-id="${detail.getVendorCode}"
+                                                data-delta="-1"
+                                        >
+                                        <span class="glyphicon glyphicon-minus"></span>
+                                        </span>-->
+                    <!--                    <a th:href="@{/bucket/decamount(id=${detail.getProductId()})}">
+                                            <button type="button" class="btn btn-default btn-xs" title="decrease">
+                                                <span class="material-icons">remove_circle_outline</span>
+                                            </button>
+                                        </a>-->
+                    <a th:href="@{/bucket/decamount(id=${detail.getProductId()})}" style="text-decoration: none;">
+                        <span class="material-icons" title="decrease">remove_circle_outline</span>
+                    </a>
+                    <span class="js-count" th:text="${detail.getAmount()}">0</span>
+                    <a th:href="@{/bucket/incamount(id=${detail.getProductId()})}" style="text-decoration: none;">
+                        <span class="material-icons" title="increase">add_circle_outline</span>
+                    </a>
+
+                    <!--                    <span
+                                                class="cart-item__btn-inc-count js-change-count"
+                                                title="Увеличить на 1"
+                                                data-id="${detail.getVendorCode}"
+                                                data-delta="1"
+                                        >
+                                            <span class="glyphicon glyphicon-plus"></span>
+                                        </span>-->
+                </td>
+                <!--                th:text="${#numbers.formatDecimal(product.price, 1, 2)}"-->
+                <td th:text="${detail.getAmount() * detail.getPrice()}" align="right">
+                    Total
+                </td>
+                <!--                <div th:with="SumItem = (${TotalPrice} + ${detail.getAmount()} * ${detail.getPrice()})" align="right"></div>-->
+
+                <td align="center">
+                    <a th:href="@{/bucket/delete(id=${detail.getProductId()})}">
+                        <span class="material-icons" style="color:red" title="delete">delete</span>
+                        <!--                    <img src="https://d2gg9evh47fn9z.cloudfront.net/800px_COLOURBOX7389458.jpg"
+                                                 style="width: 40px; height: 40px;"
+                                                 alt="">-->
+                    </a>
+                </td>
+            </tr>
+            <tr style="font-weight:bold">
+                <td colspan="5"/>
+                <td th:text="#{cart.total}"></td>
+                <td th:text="${totalPrice}" align="right"></td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!--    <div>Итого: <span id="total-cart-summa">0</span> usd</div>-->
+    <br>
+    <div class="container">
+        <div class="row justify-content-between">
+            <form th:action="@{/bucket}" method="post">
+                <button class="btn btn-info" type="submit" name="submit">Create Order</button>
+                <button class="btn btn-info" type="submit" name="clear">Clear Cart</button>
+            </form>
+            <!--    <button id="order" class="btn btn-info">Оформить заказ</button>-->
+        </div>
+    </div>
+</div>
+
+<div th:if="${bucket.bucketDetails.isEmpty()}" class="col-3">
+    <h2 th:text="#{cart.empty}"></h2>
+</div>
+<!--<div class="row">
+    <div class="col-lg-3 col-sm-3 col-xs-12" style="height: 100px; line-height: 100px;">
+        <img  src="ссылка на фото" style="width: 80px; height: 80px;  " />
+    </div>
+    <div  class="col-lg-3 col-sm-3 col-xs-12 mob-fix" style="height: 100px; line-height: 100px;">
+        Название
+    </div>
+    <div class="col-lg-2 col-sm-2 col-xs-12 mob-fix" style="height: 100px; line-height: 100px;">
+        Цена
+    </div>
+    <div class="col-lg-1 col-sm-2 col-xs-12 mob-fix" style="height: 100px; line-height: 100px;">
+        Количество
+    </div>
+    <div class="col-lg-3 col-sm-2 col-xs-12 mob-fix" style="height: 100px; line-height: 100px;">
+        Удалить
+    </div>
+</div>
+
+<hr>
+<div style="width: 100%; text-align: right;">
+    <div style="width: 50%; float: right;">
+        <button>Пересчитать</button>
+        <button>Оформить заказ</button>
+    </div>
+</div>-->
+
+
+<!--<div class="container">
+    <div class="row">
+        <div th:if="${!bucket.bucketDetails.isEmpty()}" class="col-3">
+            <h2 th:text="#{cart.title}"></h2>
+            <div class="card" th:each="detail : ${bucket.bucketDetails}">
+                <h3 th:text="${detail.getTitle()}"></h3>
+                <h4 th:text="${detail.getAmount()}"></h4>
+                <h4 th:text="${detail.getPrice()}"></h4>
+                &lt;!&ndash;            <a th:href="@{'/cart/remove/{id}'(id=${product.getProductId()})}" class="col-md-1">&ndash;&gt;
+                <a th:href="@{/bucket/delete(id=${detail.getProductId()})}" class="col-md-1">
+                    <button type="button" class="btn btn-primary" th:text="#{cart.remove}"></button>
+                </a>
+                <br>
+            </div>
+        </div>
+    </div>
+
+    <div th:if="${bucket.bucketDetails.isEmpty()}" class="col-3">
+        <h2 th:text="#{cart.empty}"></h2>
+    </div>
+
+    <br>
+    <a th:href="@{'/cart/clear/'}" class="col-md-1">
+        <button type="button" class="btn btn-info" th:text="#{cart.clear}"></button>
+    </a>
+
+    <br>
+    <div class="row">
+        <h3 th:text="#{cart.total} + ' ' + ${totalPrice}"></h3>">
+        <a th:href="@{'/cart/checkout'}" class="col-md-1">
+            <button type="button" class="btn btn-success" th:text="#{cart.checkout}"></button>
+        </a>
+    </div>
+</div>-->
+
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>

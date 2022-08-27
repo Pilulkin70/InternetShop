@@ -1,0 +1,153 @@
+html {
+    height: 100%;
+}
+
+body {
+    background: rgb(209, 209, 216);
+    position: relative;
+    margin: 0;
+    padding-bottom: 6rem;
+    min-height: 100%;
+}
+
+span {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+footer {
+    position: absolute;
+    bottom: 5px;
+    line-height: 35px;
+    width: 90%;
+    display: flex;
+    align-items: right;
+    justify-content: right;
+}
+
+.container {
+    padding-top: 15px;
+    padding-bottom: 8px;
+}
+
+.btn {
+    padding-left: 10px;
+}
+
+.alert {
+    padding-top: 5px;
+}
+
+#header-username{
+    color: ghostwhite;
+}
+
+nav {
+    height: 60px;
+}
+
+.navbar-brand {
+    font-size: 30px;
+    padding-left: 10px;
+    padding-right: 15px;
+    transition: all 300ms;
+}
+
+.navbar-brand:hover, .info-slide:active {
+    transform: scale(1.5);
+}
+
+.card-deck {
+    padding-left: 20px;
+}
+
+/* Product card */
+.card {
+    max-width: 17rem;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.06);
+    transition: all .3s;
+}
+
+.card:hover {
+	box-shadow: 0 14px 30px -15px rgba(0, 0, 0, 0.75);
+}
+
+.product-thumb a {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 200px;
+	padding: 15px;
+}
+
+.product-thumb img{
+	max-width: 100%;
+	max-height: 100%;
+}
+
+.card-body{
+    padding: 15px;
+}
+
+.card-body h4 {
+	font-weight: 500;
+	display: block;
+	height: 60px;
+	overflow: hidden;
+	text-decoration: none;
+}
+
+.card-body p {
+	font-size: 15px;
+	margin-bottom: 10px;
+	color: #999;
+	height: 44px;
+	overflow: hidden;
+}
+
+.card-footer p {
+	font-size: 18px;
+	color: #ff6e73;
+	font-weight: 600;
+}
+/* Product card */
+
+#bucket {
+    width: 42px;
+    height: 42px;
+}
+
+/* order */
+.gradient-custom {
+/* fallback for old browsers */
+background: #cd9cf2;
+
+/* Chrome 10-25, Safari 5.1-6 */
+/*background: -webkit-linear-gradient(to top left, rgba(205, 156, 242, 1), rgba(246, 243, 255, 1));*/
+background: -webkit-linear-gradient(to top left, rgba(105, 156, 242, 1), rgba(146, 243, 255, 1));
+
+/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+/*background: linear-gradient(to top left, rgba(205, 156, 242, 1), rgba(246, 243, 255, 1))*/
+background: linear-gradient(to top left, rgba(105, 156, 242, 1), rgba(146, 243, 255, 1))
+}
+/* order */
+
+/* carousel */
+.main-carousel {
+	padding: 0;
+}
+
+.main-carousel .carousel-item {
+/*	display: flex;*/
+	max-height: 640px;
+/*  height: 640px;
+  width: 100%;
+  overflow: hidden;*/
+}
+
+.main-carousel .carousel-item img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+/* carousel */

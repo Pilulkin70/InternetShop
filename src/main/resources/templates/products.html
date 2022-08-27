@@ -1,0 +1,122 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/header :: header-css">
+    <meta charset="UTF-8">
+    <title>Demo Shop</title>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container">
+    <div class="row">
+        <nav class="side-menu">
+            <h3 th:text="#{category.filter.title}">Category</h3>
+            <ul>
+                <li th:each="category: ${categories}"><a
+                        th:href="@{/products/filterByCategory(categoryId=${category.id})}"
+                        th:text="${category.title}"></a>
+                </li>
+                <li>
+                    <a href="/products">All</a>
+                </li>
+            </ul>
+        </nav>
+
+        <!--        <button sec:authorize="hasAuthority('ADMIN')" class="btn">-->
+        <!--            <a th:href="@{product/new}"><i class="fas fa-plus fa-2x"></i></a>-->
+        <!--        </button>-->
+
+        <!--            <div class="col card-deck ml-5 my-3" th:if="${!products.isEmpty()}" th:each="product : ${products}">-->
+        <div style="margin-left: 150px; width: 90%">
+            <div class="row">
+                <div style="min-width: 18rem;" class="col card-deck my-2" th:if="${!products.isEmpty()}"
+                     th:each="product : ${products}">
+                    <!--            <div class="col-lg-3 col-sm-6 mb-3" th:if="${!products.isEmpty()}" th:each="product : ${products}">-->
+                    <div class="card">
+                        <div sec:authorize="hasAuthority('ADMIN')" class="admin d-flex justify-content-between border-bottom">
+                            <button class="btn">
+                                <a th:href="@{/products/{id}/delete(id=${product.getId()})}">
+                                    <span class="material-icons">delete_forever</span>
+                                </a>
+                            </button>
+                            <button class="btn">
+                                <a th:href="@{/products/{id}/invert-available(id=${product.getId()})}"><span
+                                        th:utext="${product.available} ? #{product.set_not_available} : #{product.set_available}">Invert available</span></a>
+                            </button>
+                            <button class="btn">
+                                <a th:href="@{products/{id}/edit(id=${product.getId()})}">
+                                    <span class="material-icons">edit</span>
+                                </a>
+                            </button>
+                        </div>
+                        <div class="product-thumb">
+                            <!--                <img class="card-img-top" th:if="${!product.getImageUrl().isEmpty()}" th:src="${product.getImageUrl()}"-->
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#imgModal">
+                                <img class="card-img-top" th:if="${product.getImgUrl().isEmpty()}"
+                                     th:src="@{https://d2gg9evh47fn9z.cloudfront.net/800px_COLOURBOX7389458.jpg}"
+                                     alt="Card image cap">
+                                <img class="card-img-top" th:if="${!product.getImgUrl().isEmpty()}"
+                                     th:src="@{${product.getImgUrl()}}"
+                                     alt="Card image cap">
+                            </a>
+
+                        </div>
+
+
+                        <div class="modal fade" id="imgModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                             aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-secondary text-white">
+                                        <h5 class="modal-title" id="exampleModalLabel">Picture</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <img class="card-img-top"
+                                             src="/images/advert.jpg"
+                                             alt="Card image cap">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="card-body">
+                            <h4 class="card-title" th:text="${product.getTitle()}"></h4>
+                            <p class="card-text" th:text="${product.getDescription()}"></p>
+                        </div>
+                        <div class="card-footer" th:if="${product.getAvailable()}">
+                            <p th:text="'$'+${product.getPrice()}"></p>
+                            <a th:href="${'/products/' + product.getId()+'/bucket'}"
+                               class="btn btn-lg btn-outline-info btn-block"
+                               th:text="#{product.add}"></a>
+                        </div>
+                        <div class="card-footer" th:if="${!product.getAvailable()}">
+                            <p th:text="'$'+${product.getPrice()}" style="color: silver;"></p>
+                            <a class="btn btn-lg btn-outline-info btn-block" style="color: red;"
+                               th:text="#{product.not_available}"></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="min-width: 18rem; max-height: 15rem;" class="col card-deck-add my-2"
+                     sec:authorize="hasAuthority('ADMIN')">
+                    <div class="card-add">
+                        <a href="/products/new">
+                            <img class="card-img-top"
+                                 src="/images/AddNewProduct.jpg"
+                                 alt="Add new product">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

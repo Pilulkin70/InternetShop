@@ -1,0 +1,67 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/header :: header-css">
+    <meta charset="UTF-8">
+    <title>Demo Shop</title>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<!--<h2>Your UUID -> <b th:text="${uuid}">10</b></h2>-->
+<!--<h2>Your IP -> <b th:text="${userIP}">10</b></h2>-->
+
+<div class="main-carousel">
+    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+                    aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+                    aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+                    aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active" data-bs-interval="8000">
+                <img src="/images/slide1.jpg"
+                     class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h1 style="color: LightGreen; text-shadow: 3px 3px #000000;" th:text="#{main.slide1.head}">
+                        Hello!</h1>
+                    <p th:text="#{main.slide1.description1}+${userIP}"></p>
+                    <p th:text="#{main.slide1.description2}+${uuid}"></p>
+                </div>
+            </div>
+            <div class="carousel-item" data-bs-interval="8000">
+                <img src="/images/slide2.jpg"
+                     class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h4>We can do everything!</h4>
+                    <p>but not always )</p>
+                </div>
+            </div>
+            <div class="carousel-item" data-bs-interval="8000">
+                <img src="/images/cat.jpg" class="d-block w-100"
+                     alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Well, how is it without cats )</h5>
+                    <!--                <p>.</p>-->
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+                data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+                data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

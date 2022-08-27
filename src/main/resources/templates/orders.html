@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Orders</title>
+</head>
+<body>
+<div th:insert="~{fragments/menu :: #nav-menu}"></div>
+<h2>Your orders</h2>
+
+<form name="name1" action="">
+    <table border="1" align="center">
+        <tr>
+            <td>Created</td>
+            <td>Changed</td>
+            <td>Sum</td>
+            <td>Address</td>
+            <td>Status</td>
+        </tr>
+        <tr th:each="order : ${orders}">
+            <td th:text="${#temporals.format(order.created,'dd-MMMM-yyyy')}">Nothing</td>
+            <td th:text="${#temporals.format(order.changed,'dd-MMMM-yyyy')}">Nothing</td>
+            <td th:text="${order.sum}">Nothing</td>
+            <td th:text="${order.address}">Nothing</td>
+            <td th:text="${order.status}">Nothing</td>
+            <table border="1" align="center">
+                <tr>
+                    <td>Title</td>
+                    <td>Price</td>
+                    <td>Amount</td>
+                </tr>
+                <tr th:each="detail : ${order.details}">
+                    <td th:text="${detail.product.title}">Title</td>
+                    <td th:text="${detail.price}">Price</td>
+                    <td th:text="${detail.amount}">Amount</td>
+                </tr>
+            </table>
+        </tr>
+    </table>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+  datasource:
+    driver-class-name: org.postgresql.Driver
+#    url: jdbc:${DATABASE_PATH:postgresql://localhost:5432/internetshop}
+#    username: ${DATABASE_USER:postgres}
+#    password: ${DATABASE_PASSWORD:root}
+  flyway:
+    baseline-on-migrate: true
+    enabled: true
+logging:
+  level:
+    org.springframework.web: DEBUG
+server:
+  hostname: localhost
+  port: ${PORT:8080}
+mail:
+  server:
+    host: smtp.gmail.com
+    port: 587
+    #    port: 465
+    username: testsendmail1970@gmail.com
+    password: 1S@911911
+  #    password: ${hidden.email.password}
