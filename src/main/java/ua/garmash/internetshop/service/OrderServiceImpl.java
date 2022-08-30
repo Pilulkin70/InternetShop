@@ -18,7 +18,6 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
     private final OrderMapper orderMapper = OrderMapper.MAPPER;
     private final OrderDetailMapper orderDetailMapper = OrderDetailMapper.MAPPER;
-
     private final OrderRepository orderRepository;
     private final UserService userService;
 
@@ -34,6 +33,17 @@ public class OrderServiceImpl implements OrderService {
         return savedOrder;
     }
 
+    @Override
+    @Transactional
+    public Order saveOrderFromDto(OrderDto orderDto) {
+/*        Order order = orderRepository.findById(orderDto.getId()).get();
+        if ( order != null) {
+            order.setAddress(orderDto.getAddress());
+
+        } else {
+        }*/
+        return orderRepository.save(orderMapper.toOrder(orderDto));
+    }
     @Override
     public OrderDto getOrderById(Long id) {
         return orderMapper.fromOrder(orderRepository.findById(id).orElse(null));
@@ -80,4 +90,9 @@ public class OrderServiceImpl implements OrderService {
         return orderDtoList;
     }
 
+    @Override
+    @Transactional
+    public void delOrderById(Long id) {
+        orderRepository.deleteById(id);
+    }
 }

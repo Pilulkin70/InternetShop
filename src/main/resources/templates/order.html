@@ -18,7 +18,6 @@
                         <h5 class="text-muted mb-0">Thanks for your Order!
 <!--                            <span style="color: #f0729a;"
                              th:text="${#authentication.getPrincipal().getUsername().toUpperCase()}">Guest</span>!-->
-
                         </h5>
                     </div>
                     <div class="card-body p-4">
@@ -54,9 +53,21 @@
                             </div>
                         </div>
 
+                        <div>
+                        <table>
+                            <tr>
+                                <td>Total</td>
+                                <td th:utext="${order.getSum()}"></td>
+                            </tr>
+                        </table>
+
+                        </div>
+
                         <div class="d-flex justify-content-between pt-2">
                             <p class="fw-bold mb-0">Order summary</p>
-                            <p class="text-muted mb-0" th:utext="${order.getSum()}"><span class="fw-bold me-4">Total</span> $0.00</p>
+                            <p class="text-muted mb-0" >
+                                <span class="fw-bold me-4" th:text="'Total :' + ${order.getSum()}">Total</span>
+                            </p>
                         </div>
 
                         <div class="d-flex justify-content-between pt-2">
@@ -65,8 +76,8 @@
                         </div>
 
                         <div class="d-flex justify-content-between">
-                            <p class="text-muted mb-0" th:text="'Invoice Data : '+${#temporals.format(order.getChanged(), 'dd-MM-yyyy HH:mm')}">Invoice Date : 20 Dec,2000</p>
-                            <p class="text-muted mb-0"><span class="fw-bold me-4">GST 18%</span> 123</p>
+                            <p class="text-muted mb-0" th:text="'Invoice Data : '+${#temporals.format(order.getChanged(), 'dd-MM-yyyy HH:mm')}">Invoice Date : 20-12-2000</p>
+                            <p class="text-muted mb-0"><span class="fw-bold me-4" th:text="'НДС 18%'">GST 18%</span> 123</p>
                         </div>
 
                         <div class="d-flex justify-content-between mb-5">

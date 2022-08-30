@@ -77,6 +77,9 @@ public class UserServiceImpl implements UserService {
 
         boolean changed = false;
         if (!dto.getUsername().equals(savedUser.getUsername())) {
+            if (userRepository.findFirstByUsername(dto.getUsername()) != null) {
+                throw new RuntimeException("This name is already in use " + dto.getUsername());
+            }
             savedUser.setUsername(dto.getUsername());
             changed = true;
         }
@@ -88,6 +91,10 @@ public class UserServiceImpl implements UserService {
             savedUser.setEmail(dto.getEmail());
             changed = true;
         }
+        if (!dto.getPhone().equals(savedUser.getPhone())) {
+            savedUser.setPhone(dto.getPhone());
+            changed = true;
+        }
         if (!dto.getFirstName().equals(savedUser.getFirstName())) {
             savedUser.setFirstName(dto.getFirstName());
             changed = true;
@@ -96,7 +103,7 @@ public class UserServiceImpl implements UserService {
             savedUser.setLastName(dto.getLastName());
             changed = true;
         }
-        if (dto.getAge()!=savedUser.getAge()) {
+        if (dto.getAge() != savedUser.getAge()) {
             savedUser.setAge(dto.getAge());
             changed = true;
         }
@@ -144,12 +151,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto getById(Long id) {
+    public UserDto getUserDtoById(Long id) {
         return mapper.fromUser(userRepository.findById(id).get());
     }
 
     @Override
-    public UserDto getByName(String name) {
+    public User getUserById(Long id) {
+        return userRepository.findById(id).get();
+    }
+
+    @Override
+    public UserDto getUserDtoByName(String name) {
         return mapper.fromUser(userRepository.findFirstByUsername(name));
+    }
+
+    @Override
+    public User getUserByName(String name) {
+        return userRepository.findFirstByUsername(name);
     }
 }

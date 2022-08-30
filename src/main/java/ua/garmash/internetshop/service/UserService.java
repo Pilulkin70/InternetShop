@@ -14,6 +14,8 @@ public interface UserService extends UserDetailsService { // security
 	User findByName(String name);
 	void updateProfile(UserDto userDTO);
 	void delUserById(Long id);
-	UserDto getById(Long id);
-	UserDto getByName(String name);
+	UserDto getUserDtoById(Long id);
+	User getUserById(Long id);
+	UserDto getUserDtoByName(String name);
+	User getUserByName(String name);
 }

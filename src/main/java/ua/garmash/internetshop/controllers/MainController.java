@@ -1,6 +1,9 @@
 package ua.garmash.internetshop.controllers;
 
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +17,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -41,7 +45,9 @@ public class MainController {
     }*/
 
     @RequestMapping({"", "/"})
-    public String index(HttpServletRequest httpServletRequest, Model model, HttpSession httpSession) {
+    public String index(HttpServletRequest httpServletRequest, Model model, HttpSession httpSession,
+                        @PageableDefault(sort={"id"}, direction = Sort.Direction.ASC) Pageable pageable) {
+
         if (httpSession.getAttribute("myID") == null) {
             String uuid = UUID.randomUUID().toString();
             httpSession.setAttribute("myID", uuid);
@@ -52,8 +58,8 @@ public class MainController {
         }
         model.addAttribute("uuid", httpSession.getAttribute("myID"));
         model.addAttribute("userIP", httpSession.getAttribute("myIP"));
-        model.addAttribute("products", productService.getAll());
-        model.addAttribute("categories", categoryService.findAll());
+/*        model.addAttribute("products", productService.getAll(pageable));
+        model.addAttribute("categories", categoryService.findAll());*/
         return "index";
     }
 

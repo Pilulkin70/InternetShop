@@ -6,6 +6,7 @@ create table users (
                        username varchar(255),
                        password varchar(255),
                        email varchar(255),
+                       phone varchar(255),
                        first_name varchar(255),
                        last_name varchar(255),
                        age integer,
@@ -99,11 +100,16 @@ create sequence order_seq start 1 increment 1;
 
 create table orders (
                         id bigint NOT NULL,
-                        address varchar(255),
                         changed timestamp,
                         created timestamp,
-                        status varchar(255),
                         sum numeric(19, 2),
+                        address varchar(255),
+                        recipient varchar(255),
+                        phone varchar(255),
+                        email varchar(255),
+                        payment varchar(255),
+                        delivery varchar(255),
+                        status varchar(255),
                         user_id bigint,
                         primary key (id)
 );

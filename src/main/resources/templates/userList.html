@@ -17,7 +17,6 @@
             <th>Email</th>
             <th>First name</th>
             <th>Last name</th>
-            <th>Gender</th>
             <th>Age</th>
             <th>City</th>
             <th>Role</th>
@@ -31,7 +30,6 @@
             <td th:text="${user.email}">e-mail</td>
             <td th:text="${user.firstName}">first name</td>
             <td th:text="${user.lastName}">last name</td>
-            <td th:text="${user.gender}">gender</td>
             <td th:text="${user.age}" align="center">age</td>
             <td th:text="${user.city}" align="center">city</td>
             <td th:text="${user.role}" align="center">role</td>
@@ -44,9 +42,11 @@
 
 
             <td align="center">
-                <a th:href="@{/users/{id}/delete(id=${user.getId()})}">
-                    <span class="material-icons" style="color:red" title="delete">delete</span>
-                </a>
+                <div th:if="${user.role.toString() != 'ADMIN'}">
+                    <a th:href="@{/users/{id}/delete(id=${user.getId()})}">
+                        <span class="material-icons" style="color:red" title="delete">delete</span>
+                    </a>
+                </div>
             </td>
             <td align="center">
                 <a th:href="@{/users/{id}/edit(id=${user.getId()})}">

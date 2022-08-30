@@ -81,7 +81,7 @@ public class UserController {
         model.addAttribute("user", dto);*/
 //        model.addAttribute("user", userService.getByName(principal.getName()));
 
-        UserDto userDto = userService.getByName(principal.getName());
+        UserDto userDto = userService.getUserDtoByName(principal.getName());
         List<OrderDto> ordersDto = orderService.getOrdersByUser(userDto.getUsername());
         model.addAttribute("user", userDto);
         model.addAttribute("orders", ordersDto);
@@ -126,7 +126,7 @@ public class UserController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/{id}/edit")
     public String editUser(@PathVariable Long id, Model model, Principal principal) {
-        UserDto userDto = userService.getById(id);
+        UserDto userDto = userService.getUserDtoById(id);
         List<OrderDto> ordersDto = orderService.getOrdersByUser(userDto.getUsername());
         model.addAttribute("user", userDto);
         model.addAttribute("orders", ordersDto);
@@ -140,7 +140,7 @@ public class UserController {
             throw new RuntimeException("User Id exception.");
         }
         if (dto.getPassword().isEmpty()) {
-            dto.setPassword(userService.getById(id).getPassword());
+            dto.setPassword(userService.getUserDtoById(id).getPassword());
         }
         userService.updateProfile(dto);
         return "/{id}/edit";

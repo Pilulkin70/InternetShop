@@ -33,12 +33,12 @@ class UserServiceImplTest {
     }
 
     @AfterEach
-    void afterEach(){
+    void afterEach() {
         System.out.println("After each test");
     }
 
     @AfterAll
-    static void afterAll(){
+    static void afterAll() {
         System.out.println("After All test");
     }
 
@@ -46,7 +46,9 @@ class UserServiceImplTest {
     void checkFindByName() {
         //have
         String name = "petr";
-        User expectedUser = User.builder().id(1L).username(name).build();
+        User expectedUser = new User();
+        expectedUser.setId(1L);
+        expectedUser.setUsername(name);
 
         Mockito.when(userRepository.findFirstByUsername(Mockito.anyString())).thenReturn(expectedUser);
 
@@ -63,7 +65,9 @@ class UserServiceImplTest {
     void checkFindByNameExact() {
         //have
         String name = "petr";
-        User expectedUser = User.builder().id(1L).username(name).build();
+        User expectedUser = new User();
+        expectedUser.setId(1L);
+        expectedUser.setUsername(name);
 
         Mockito.when(userRepository.findFirstByUsername(Mockito.eq(name))).thenReturn(expectedUser);
 
@@ -80,7 +84,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    void checkSaveIncorrectPassword(){
+    void checkSaveIncorrectPassword() {
         //have
         UserDto userDto = UserDto.builder()
                 .password("password")
@@ -98,7 +102,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    void checkSave(){
+    void checkSave() {
         //have
         UserDto userDto = UserDto.builder()
                 .username("name")

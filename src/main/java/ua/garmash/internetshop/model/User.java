@@ -8,7 +8,6 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Entity
 @Table(name = "users")
 public class User {
@@ -22,6 +21,7 @@ public class User {
     private String username;
     private String password;
     private String email;
+    private String phone;
     @Column(name = "first_name")
     private String firstName;
     @Column(name = "last_name")

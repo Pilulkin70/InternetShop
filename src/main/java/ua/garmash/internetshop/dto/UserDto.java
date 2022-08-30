@@ -16,10 +16,10 @@ public class UserDto {
 	private String password;
 	private String matchingPassword;
 	private String email;
+	private String phone;
 	private String firstName;
 	private String lastName;
 	private String city;
-	private String gender;
 	private Integer age;
 	private Role role;
 }

@@ -2,6 +2,10 @@ package ua.garmash.internetshop.controllers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,13 +17,13 @@ import ua.garmash.internetshop.service.ProductService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
+import java.util.ArrayList;
 
 
 @Controller
 @RequestMapping("/products")
 public class ProductController {
     private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
-
     private final ProductService productService;
     private final CategoryService categoryService;
     private final BrandService brandService;
@@ -31,9 +35,19 @@ public class ProductController {
     }
 
     @GetMapping
-    public String list(Model model) {
-        model.addAttribute("products", productService.getAll());
+    public String list(Model model,
+                       @PageableDefault(sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable) {
+        model.addAttribute("products", productService.getAll(pageable));
         model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("page", productService.getPage().getNumber());
+        ArrayList<String> pageNumbers = new ArrayList<>(productService.getPage().getTotalPages());
+/*        List<Integer> pageNumbers = IntStream.rangeClosed(1, productService.getPage().getTotalPages())
+                .boxed()
+                .collect(Collectors.toList());*/
+        for (int i = 0; i < productService.getPage().getTotalPages(); i++) {
+            pageNumbers.add(Integer.toString(i));
+        }
+        model.addAttribute("pages", pageNumbers);
         return "products";
     }
 
@@ -44,10 +58,10 @@ public class ProductController {
         if (principal != null) {
             productService.addToUserBucket(id, principal.getName());
         }
-//		return "redirect:/products";
         return "redirect:" + referer;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/{id}/delete")
     public String delProduct(@PathVariable Long id, Principal principal) {
         if (principal == null) {
@@ -57,6 +71,7 @@ public class ProductController {
         return "redirect:/products";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/{id}/invert-available")
     public String invertAvailabilityProduct(@PathVariable Long id, Principal principal) {
         if (principal == null) {
@@ -86,17 +101,22 @@ public class ProductController {
     public String homePost(@RequestParam("categoryId") long categoryId, Model model) {
         model.addAttribute("products", productService.findAllByCategoryId(categoryId));
         model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("page", 0);
+        model.addAttribute("pages", new ArrayList<String>(1));
         return "products";
     }
 
     @RequestMapping(path = {"/search"})
-    public String search(Model model, String keyword) {
+    public String search(Model model, String keyword,
+                         @PageableDefault(sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable) {
         if (keyword == null) {
-            model.addAttribute("products", productService.getAll());
+            model.addAttribute("products", productService.getAll(pageable));
         } else {
             model.addAttribute("products", productService.getByKeyword(keyword));
         }
         model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("page", 0);
+        model.addAttribute("pages", new ArrayList<String>(1));
         return "products";
     }
 
@@ -124,6 +144,7 @@ public class ProductController {
         return "redirect:/products";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/{id}/edit")
     public String editProduct(@PathVariable("id") long productId, Model model) {
         ProductDto productDto = productService.getById(productId);
@@ -138,6 +159,7 @@ public class ProductController {
         }
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(value = "/{id}/edit", params = "submit")
     public String editProduct(@PathVariable("id") long productId, @ModelAttribute("productForm") ProductDto productForm, BindingResult bindingResult, Model model) {
 //		productValidator.validate(productForm, bindingResult);
@@ -153,8 +175,9 @@ public class ProductController {
         return "redirect:/products";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(value = "/{id}/edit", params = "cancel")
-    public String cancelProduct(@PathVariable("id") long productId){
+    public String cancelProduct(@PathVariable("id") long productId) {
         logger.debug(String.format("Product with id: %s. Edit canceled.", productId));
         return "redirect:/products";
     }

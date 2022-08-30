@@ -1,2 +1,2 @@
-INSERT INTO users (id)
-VALUES (0);
+INSERT INTO users (id, role)
+VALUES (0, 'CLIENT');

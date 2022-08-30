@@ -18,11 +18,6 @@
                         <div class="alert alert-danger error-alert" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
                     </div>
                     <div class="form-group">
-                        <label th:text="#{user.email} + '*'"></label>
-                        <input type="email" th:field="*{email}" class="form-control input-lg" title="email" required/>
-                        <div class="alert alert-danger error-alert" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
-                    </div>
-                    <div class="form-group">
                         <label th:text="#{user.password} + '*'"></label>
                         <input type="password" th:field="*{password}" class="form-control input-lg" title="password" required/>
                         <div class="alert alert-danger error-alert" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
@@ -31,6 +26,19 @@
                         <label th:text="#{user.confirm_password} + '*'"></label>
                         <input type="password" th:field="*{matchingPassword}" class="form-control input-lg" title="passwordConfirm" required/>
                         <div class="alert alert-danger error-alert" th:if="${#fields.hasErrors('matchingPassword')}" th:errors="*{matchingPassword}"></div>
+                    </div>
+                    <div class="form-group">
+                        <label th:text="#{user.email} + '*'"></label>
+                        <input type="email" th:field="*{email}" class="form-control input-lg" title="email" required/>
+                        <div class="alert alert-danger error-alert" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                    </div>
+                    <div class="form-group">
+                        <label th:text="#{user.phone}"></label>
+                        <input type="text" th:field="*{phone}" class="form-control input-lg"
+                               title="phone"/>
+                        <div class="alert alert-danger error-alert"
+                             th:if="${#fields.hasErrors('phone')}"
+                             th:errors="*{phone}"></div>
                     </div>
                     <div class="form-group">
                         <label th:text="#{user.firstname}"></label>
@@ -46,15 +54,6 @@
                         <label th:text="#{user.city}"></label>
                         <input type="text" th:field="*{city}" class="form-control input-lg" title="city" />
                         <div class="alert alert-danger error-alert" th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></div>
-                    </div>
-                    <div class="form-group">
-                        <label th:text="#{user.gender} + '*'"></label>
-                        <select th:field="*{gender}" class="form-control custom-select-lg" required title="gender">
-                            <option value="HIDDEN" th:text="#{user.gender.hidden}">Hidden</option>
-                            <option value="MALE" th:text="#{user.gender.male}">Male</option>
-                            <option value="FEMALE" th:text="#{user.gender.female}">Female</option>
-                        </select>
-                        <div class="alert alert-danger error-alert" th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></div>
                     </div>
                     <div class="form-group">
                         <label th:text="#{user.age} + '*'"></label>

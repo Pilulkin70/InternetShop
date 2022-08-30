@@ -16,7 +16,6 @@ import java.util.UUID;
 @Controller
 @RequestMapping("/bucket")
 public class CartController {
-
     private final CartService cartService;
 
     public CartController(CartService cartService) {
@@ -32,17 +31,17 @@ public class CartController {
     }
 
     @PostMapping(params = "submit")
-    public String commitCart(Principal principal) {
+    public String commitCartToOrder(Principal principal) {
         if (principal != null) {
-            return "redirect:/order/" + cartService.commitCartToOrder(principal.getName());
+            return "redirect:/order/" + cartService.commitCartToOrder(principal.getName()) + "/delivery";
         } else {
-            return "redirect:/order/" + cartService.commitCartToOrder(UUID.randomUUID().toString());
+            return "redirect:/order/" + cartService.commitCartToOrder(UUID.randomUUID().toString()) + "/delivery";
         }
     }
 
     @PostMapping(params = "clear")
     public String clearCart() {
-            cartService.clearCart();
+        cartService.clearCart();
         return "redirect:/products";
     }
 

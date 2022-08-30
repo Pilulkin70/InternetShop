@@ -30,11 +30,102 @@
         <!--            <div class="col card-deck ml-5 my-3" th:if="${!products.isEmpty()}" th:each="product : ${products}">-->
         <div style="margin-left: 150px; width: 90%">
             <div class="row">
+
+                <nav aria-label="Page navigation example" th:if="${pages.size()} gt 1">
+                    <ul class="pagination">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1" th:text="#{product.pages}">Pages</a>
+                        </li>
+                        <div th:each="el,state:${pages}">
+                            <!--                            <li class="page-item"><a class="page-link" th:href="@{'?page='+${el}}"-->
+                            <li class="page-item" th:with="urlBuilder1=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}">
+                                <a class="page-link"
+                                   th:href="@{${urlBuilder1.replaceQueryParam('page', __${el}__).toUriString()}}"
+                                   th:text="${state.index}+1">
+                                </a>
+                            </li>
+                        </div>
+                        <div>
+                            <li th:with="urlBuilder2=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}">
+                                <div class="container pt-0 pb-0">
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                                aria-expanded="false" th:text="#{product.items_on_page}">
+                                            Items on page
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item"
+                                                   th:href="@{${urlBuilder2
+                                               .replaceQueryParam('size', '4')
+                                               .replaceQueryParam('page', '0')
+                                               .toUriString()}}">4</a>
+                                            </li>
+                                            <li><a class="dropdown-item"
+                                                   th:href="@{${urlBuilder2
+                                               .replaceQueryParam('size', '8')
+                                               .replaceQueryParam('page', '0')
+                                               .toUriString()}}">8</a>
+                                            </li>
+                                            <li><a class="dropdown-item"
+                                                   th:href="@{${urlBuilder2
+                                               .replaceQueryParam('size', '16')
+                                               .replaceQueryParam('page', '0')
+                                               .toUriString()}}">16</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        </div>
+                        <div>
+                            <li th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}">
+                                <div class="container pt-0 pb-0 pl-0 ml-0">
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                id="dropdownMenuButton2" data-bs-toggle="dropdown"
+                                                aria-expanded="false" th:text="#{product.sort}">
+                                            Sort
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                                            <li><a class="dropdown-item"
+                                                   th:href="@{${urlBuilder.replaceQueryParam('sort', 'id').toUriString()}}"
+                                                   th:text="#{product.sort.popularity.asc}">Popularity ascend</a>
+                                            </li>
+<!--                                            <li><a class="dropdown-item"
+                                                   th:href="@{${urlBuilder.replaceQueryParam('sort', 'id,desc').toUriString()}}"
+                                                   th:text="#{product.sort.popularity.desc}">Popularity descend</a>
+                                            </li>-->
+                                            <li><a class="dropdown-item"
+                                                   th:href="@{${urlBuilder.replaceQueryParam('sort', 'price').toUriString()}}"
+                                                   th:text="#{product.sort.price.asc}">Price ascend</a>
+                                            </li>
+<!--                                            <li><a class="dropdown-item"
+                                                   th:href="@{${urlBuilder.replaceQueryParam('sort', 'price').toUriString()}}"
+                                                   th:text="#{product.sort.price.desc}">Price descend</a>
+                                            </li>-->
+                                            <li><a class="dropdown-item"
+                                                   th:href="@{${urlBuilder.replaceQueryParam('sort', 'title').toUriString()}}"
+                                                   th:text="#{product.sort.name.asc}">Name ascend</a>
+                                            </li>
+<!--                                            <li><a class="dropdown-item"
+                                                   th:href="@{${urlBuilder.replaceQueryParam('sort', 'title, desc').toUriString()}}"
+                                                   th:text="#{product.sort.name.desc}">Name descend</a>
+                                            </li>-->
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        </div>
+                    </ul>
+                </nav>
+
                 <div style="min-width: 18rem;" class="col card-deck my-2" th:if="${!products.isEmpty()}"
                      th:each="product : ${products}">
                     <!--            <div class="col-lg-3 col-sm-6 mb-3" th:if="${!products.isEmpty()}" th:each="product : ${products}">-->
                     <div class="card">
-                        <div sec:authorize="hasAuthority('ADMIN')" class="admin d-flex justify-content-between border-bottom">
+                        <div sec:authorize="hasAuthority('ADMIN')"
+                             class="admin d-flex justify-content-between border-bottom">
                             <button class="btn">
                                 <a th:href="@{/products/{id}/delete(id=${product.getId()})}">
                                     <span class="material-icons">delete_forever</span>

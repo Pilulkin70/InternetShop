@@ -1,5 +1,7 @@
 package ua.garmash.internetshop.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ua.garmash.internetshop.dao.ProductRepository;
 import ua.garmash.internetshop.dto.ProductDto;
@@ -23,6 +25,8 @@ public class ProductServiceImpl implements ProductService {
     private final BucketService bucketService;
     private final CartService cartService;
 
+    private static Page page;
+
 
     public ProductServiceImpl(ProductRepository productRepository,
                               UserService userService,
@@ -36,14 +40,23 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto> getAll() {
-        return mapper.fromProductList(productRepository.findAll());
+    public List<ProductDto> getAll(Pageable pageable) {
+        Page<Product> productPage = productRepository.findAll(pageable);
+        page = productPage;
+        List<Product> listOfProducts = productPage.getContent();
+        return mapper.fromProductList(listOfProducts);
+//        return mapper.fromProductList(productRepository.findAll(pageable));
+    }
+
+    public Page getPage(){
+        return page;
     }
 
 /*    public List<ProductDto> getFullTextSearch(String searchString) {
         return mapper.fromProductList(productRepository.findFullTextSearch(searchString));
     }*/
 
+    @Override
     public List<ProductDto> getByKeyword(String searchString) {
         return mapper.fromProductList(productRepository.findByKeyword(searchString.toUpperCase()));
     }
