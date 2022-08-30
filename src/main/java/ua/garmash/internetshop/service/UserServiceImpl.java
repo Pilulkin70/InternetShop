@@ -103,7 +103,7 @@ public class UserServiceImpl implements UserService {
             savedUser.setLastName(dto.getLastName());
             changed = true;
         }
-        if (dto.getAge() != savedUser.getAge()) {
+        if (!Objects.equals(dto.getAge(), savedUser.getAge())) {
             savedUser.setAge(dto.getAge());
             changed = true;
         }
