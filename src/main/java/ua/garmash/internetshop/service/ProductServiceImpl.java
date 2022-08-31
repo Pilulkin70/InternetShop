@@ -6,23 +6,20 @@ import org.springframework.stereotype.Service;
 import ua.garmash.internetshop.dao.ProductRepository;
 import ua.garmash.internetshop.dto.ProductDto;
 import ua.garmash.internetshop.mapper.ProductMapper;
-import ua.garmash.internetshop.model.Bucket;
+import ua.garmash.internetshop.model.Basket;
 import ua.garmash.internetshop.model.Product;
 import ua.garmash.internetshop.model.User;
 
 import javax.transaction.Transactional;
-import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 @Service
 public class ProductServiceImpl implements ProductService {
 
     private final ProductMapper mapper = ProductMapper.MAPPER;
-
     private final ProductRepository productRepository;
     private final UserService userService;
-    private final BucketService bucketService;
+    private final BasketService basketService;
     private final CartService cartService;
 
     private static Page page;
@@ -30,11 +27,11 @@ public class ProductServiceImpl implements ProductService {
 
     public ProductServiceImpl(ProductRepository productRepository,
                               UserService userService,
-                              BucketService bucketService,
+                              BasketService basketService,
                               CartService cartService) {
         this.productRepository = productRepository;
         this.userService = userService;
-        this.bucketService = bucketService;
+        this.basketService = basketService;
         this.cartService = cartService;
 
     }
@@ -74,14 +71,14 @@ public class ProductServiceImpl implements ProductService {
             throw new RuntimeException("User not found. " + username);
         }
 
-        Bucket bucket = user.getBucket();
-        if (bucket == null) {
-            Bucket newBucket = bucketService.createBucket(user, productId);
-            user.setBucket(newBucket);
+        Basket basket = user.getBasket();
+        if (basket == null) {
+            Basket newBasket = basketService.createBasket(user, productId);
+            user.setBasket(newBasket);
             userService.save(user);
         } else {
 //            bucketService.addProducts(bucket, Collections.singletonList(productId));
-            bucketService.addItem(bucket, productId);
+            basketService.addItem(basket, productId);
         }
     }
 
@@ -114,8 +111,14 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
+    @Override
     public List<ProductDto> findAllByCategoryId(Long categoryId) {
         List<Product> productList = productRepository.findAllByCategoryId(categoryId);
+        return mapper.fromProductList(productList);
+    }
+    @Override
+    public List<ProductDto> findAllByBrandId(Long brandId){
+        List<Product> productList = productRepository.findAllByBrandId(brandId);
         return mapper.fromProductList(productList);
     }
 

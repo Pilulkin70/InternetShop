@@ -14,18 +14,18 @@ create table users (
                        role varchar(255),
                        PRIMARY KEY (id)
 );
--- BUCKET
-create sequence bucket_seq start 1 increment 1;
+-- BASKET
+create sequence basket_seq start 1 increment 1;
 
-create table buckets (
+create table baskets (
                          id bigint NOT NULL,
                          user_id bigint,
                          PRIMARY KEY (id)
 );
 
--- LINK BETWEEN BUCKET AND USER
-alter table if exists buckets
-    add constraint buckets_fk_user
+-- LINK BETWEEN BASKET AND USER
+alter table if exists baskets
+    add constraint baskets_fk_user
         foreign key (user_id) references users;
 
 
@@ -71,26 +71,21 @@ CREATE TABLE IF NOT EXISTS products (
         ON DELETE NO ACTION
 );
 
--- LINK BETWEEN PRODUCT AND BRAND
-/*alter table if exists products
-    add constraint products_fk_brand
-        foreign key (brand_id) references brands;*/
 
+-- PRODUCTS IN BASKET
 
--- PRODUCTS IN BUCKET
-
-CREATE TABLE IF NOT EXISTS bucket_items
+CREATE TABLE IF NOT EXISTS basket_items
 (
-    bucket_id bigint NOT NULL,
+    basket_id bigint NOT NULL,
     amount bigint NOT NULL,
     product_id bigint NOT NULL,
-    CONSTRAINT bucket_items_pkey PRIMARY KEY (bucket_id, product_id),
-    CONSTRAINT bucket_products_fk_product FOREIGN KEY (product_id)
+    CONSTRAINT basket_items_pkey PRIMARY KEY (basket_id, product_id),
+    CONSTRAINT bsaket_products_fk_product FOREIGN KEY (product_id)
         REFERENCES products (id) MATCH SIMPLE
         ON update NO ACTION
         ON delete NO ACTION,
-    CONSTRAINT bucket_products_fk_bucket FOREIGN KEY (bucket_id)
-        REFERENCES buckets (id) MATCH SIMPLE
+    CONSTRAINT basket_products_fk_basket FOREIGN KEY (basket_id)
+        REFERENCES baskets (id) MATCH SIMPLE
         ON update NO ACTION
         ON delete NO ACTION
 );

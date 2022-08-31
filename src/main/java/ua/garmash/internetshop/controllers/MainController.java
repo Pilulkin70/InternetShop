@@ -32,21 +32,9 @@ public class MainController {
         this.categoryService = categoryService;
     }
 
-/*    @GetMapping({"", "/"})
-    public ModelAndView getIndex(ModelAndView modelAndView) {
-        if (modelAndView.getModel().get("myID") == null) {
-            String uuid = UUID.randomUUID().toString();
-            modelAndView.getModel().put("myID", uuid);
-            System.out.println("Generated UUID -> " + uuid);
-        }
-        modelAndView.getModel().put("uuid", modelAndView.getModel().get("myID"));
-        modelAndView.setViewName("index");
-        return modelAndView;
-    }*/
-
     @RequestMapping({"", "/"})
     public String index(HttpServletRequest httpServletRequest, Model model, HttpSession httpSession,
-                        @PageableDefault(sort={"id"}, direction = Sort.Direction.ASC) Pageable pageable) {
+                        @PageableDefault(sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable) {
 
         if (httpSession.getAttribute("myID") == null) {
             String uuid = UUID.randomUUID().toString();
@@ -58,8 +46,6 @@ public class MainController {
         }
         model.addAttribute("uuid", httpSession.getAttribute("myID"));
         model.addAttribute("userIP", httpSession.getAttribute("myIP"));
-/*        model.addAttribute("products", productService.getAll(pageable));
-        model.addAttribute("categories", categoryService.findAll());*/
         return "index";
     }
 
@@ -86,11 +72,10 @@ public class MainController {
 
     @GetMapping("/set-cookie")
     public void setCookie(HttpServletResponse response) {
-        Cookie cookie = new Cookie("data", "Come_to_the_dark_side");//создаем объект Cookie,
-        //в конструкторе указываем значения для name и value
-        cookie.setPath("/");//устанавливаем путь
-        cookie.setMaxAge(86400);//здесь устанавливается время жизни куки
-        response.addCookie(cookie);//добавляем Cookie в запрос
-        response.setContentType("text/plain");//устанавливаем контекст
+        Cookie cookie = new Cookie("data", "Come_to_the_dark_side");
+        cookie.setPath("/");
+        cookie.setMaxAge(86400);
+        response.addCookie(cookie);
+        response.setContentType("text/plain");
     }
 }

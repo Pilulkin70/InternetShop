@@ -6,15 +6,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ua.garmash.internetshop.dto.BucketDto;
-import ua.garmash.internetshop.service.BucketService;
+import ua.garmash.internetshop.dto.CartDto;
 import ua.garmash.internetshop.service.CartService;
 
 import java.security.Principal;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/bucket")
+@RequestMapping("/cart")
 public class CartController {
     private final CartService cartService;
 
@@ -24,10 +23,10 @@ public class CartController {
 
     @GetMapping
     public String aboutCart(Model model) {
-        BucketDto bucketDto = cartService.getCartDto();
-        model.addAttribute("bucket", bucketDto);
-        model.addAttribute("totalPrice", bucketDto.getSum());
-        return "bucket";
+        CartDto cartDto = cartService.getCartDto();
+        model.addAttribute("cart", cartDto);
+        model.addAttribute("totalPrice", cartDto.getSum());
+        return "cart";
     }
 
     @PostMapping(params = "submit")
@@ -45,29 +44,34 @@ public class CartController {
         return "redirect:/products";
     }
 
+    @PostMapping(params = "save")
+    public String saveCart() {
+        cartService.saveCart();
+        return "redirect:/cart";
+    }
+
+    @PostMapping(params = "load")
+    public String loadCart() {
+        cartService.loadCart();
+        return "redirect:/cart";
+    }
+
     @GetMapping("/delete")
     public String delProductFromCart(@RequestParam("id") Long productId) {
         cartService.delProductFromCartById(productId);
-        return "redirect:/bucket";
+        return "redirect:/cart";
     }
-
-/*    @GetMapping("/update")
-    public String updateCartProductAmount(@RequestParam("id") Long productId,
-                               @RequestParam("amount") Long productAmount) {
-        cartService.updateCartProductAmount( productId, 1);
-        return "redirect:/bucket";
-    }*/
 
     @GetMapping("/incamount")
     public String addCartProductAmount(@RequestParam("id") Long productId) {
         cartService.updateCartProductAmount(productId, 1);
-        return "redirect:/bucket";
+        return "redirect:/cart";
     }
 
     @GetMapping("/decamount")
     public String subCartProductAmount(@RequestParam("id") Long productId) {
         cartService.updateCartProductAmount(productId, -1);
-        return "redirect:/bucket";
+        return "redirect:/cart";
     }
 }
 

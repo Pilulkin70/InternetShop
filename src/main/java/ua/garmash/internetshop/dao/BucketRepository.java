@@ -1,8 +1,8 @@
 package ua.garmash.internetshop.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import ua.garmash.internetshop.model.Bucket;
+import ua.garmash.internetshop.model.Basket;
 
-public interface BucketRepository extends JpaRepository<Bucket, Long> {
+public interface BucketRepository extends JpaRepository<Basket, Long> {
 }
 

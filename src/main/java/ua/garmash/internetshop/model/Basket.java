@@ -10,9 +10,9 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "buckets")
-public class Bucket {
-    private static final String SEQ_NAME = "bucket_seq";
+@Table(name = "baskets")
+public class Basket {
+    private static final String SEQ_NAME = "basket_seq";
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_NAME)

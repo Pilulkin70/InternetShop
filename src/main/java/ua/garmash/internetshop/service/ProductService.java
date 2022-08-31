@@ -23,5 +23,7 @@ public interface ProductService {
 
     List<ProductDto> findAllByCategoryId(Long categoryId);
 
+    List<ProductDto> findAllByBrandId(Long brandId);
+
     void save(Long productId, ProductDto productDto);
 }

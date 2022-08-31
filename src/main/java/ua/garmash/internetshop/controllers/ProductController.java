@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.ArrayList;
 
-
 @Controller
 @RequestMapping("/products")
 public class ProductController {
@@ -39,6 +38,7 @@ public class ProductController {
                        @PageableDefault(sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable) {
         model.addAttribute("products", productService.getAll(pageable));
         model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("brands", brandService.findAll());
         model.addAttribute("page", productService.getPage().getNumber());
         ArrayList<String> pageNumbers = new ArrayList<>(productService.getPage().getTotalPages());
 /*        List<Integer> pageNumbers = IntStream.rangeClosed(1, productService.getPage().getTotalPages())
@@ -51,7 +51,7 @@ public class ProductController {
         return "products";
     }
 
-    @GetMapping("/{id}/bucket")
+    @GetMapping("/{id}/cart")
     public String addBucket(@PathVariable Long id, Principal principal, HttpServletRequest request) {
         String referer = request.getHeader("Referer");
         productService.addToUserCart(id);
@@ -98,9 +98,20 @@ public class ProductController {
     }
 
     @RequestMapping("/filterByCategory")
-    public String homePost(@RequestParam("categoryId") long categoryId, Model model) {
+    public String filterCategory(@RequestParam("categoryId") long categoryId, Model model) {
         model.addAttribute("products", productService.findAllByCategoryId(categoryId));
         model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("brands", brandService.findAll());
+        model.addAttribute("page", 0);
+        model.addAttribute("pages", new ArrayList<String>(1));
+        return "products";
+    }
+
+    @RequestMapping("/filterByBrand")
+    public String filterBrand(@RequestParam("brandId") long brandId, Model model) {
+        model.addAttribute("products", productService.findAllByBrandId(brandId));
+        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("brands", brandService.findAll());
         model.addAttribute("page", 0);
         model.addAttribute("pages", new ArrayList<String>(1));
         return "products";

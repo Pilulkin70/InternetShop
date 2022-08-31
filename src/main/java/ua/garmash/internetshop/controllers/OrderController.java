@@ -12,6 +12,7 @@ import ua.garmash.internetshop.model.User;
 import ua.garmash.internetshop.service.OrderService;
 import ua.garmash.internetshop.service.UserService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class OrderController {
     @GetMapping
     public String aboutOrders(Model model, Principal principal) {
         if (principal == null) {
-            model.addAttribute("orders", null);
+            return "redirect:/";
         } else {
             List<OrderDto> ordersByUserDto = orderService.getOrdersByUser(principal.getName());
             model.addAttribute("orders", ordersByUserDto);
@@ -69,10 +70,6 @@ public class OrderController {
 
         dto.setStatus(OrderStatus.APPROVED);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-/*        if (auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ADMIN"))) {
-            orderService.saveOrderFromDto(dto);
-            return "redirect:/users/" + dto.getId() + "/edit";
-        }*/
 
         if (principal != null) {
             dto.setUser(userService.getUserByName(principal.getName()));
@@ -92,39 +89,13 @@ public class OrderController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/{id}/delete")
-    public String delOrder(@PathVariable Long id, Principal principal) {
+    public String delOrder(@PathVariable Long id, Principal principal, HttpServletRequest request) {
         if (principal == null) {
             return "redirect:/products";
         }
+        String referer = request.getHeader("Referer");
         orderService.delOrderById(id);
-        return "redirect:/users/profile";
+        return "redirect:" + referer;
     }
-
-/*    @PostMapping
-    public String commitBucket(Principal principal) {
-        if (principal != null) {
-            bucketService.commitBucketToOrder(principal.getName());
-        }
-        return "redirect:/bucket";
-    }
-
-    @GetMapping("/delete")
-    public String delProduct(@RequestParam("id") Long productId, Principal principal) {
-        if (principal == null) {
-            return "redirect:/products";
-        }
-        bucketService.delProductById(principal.getName(), productId);
-        return "redirect:/bucket";
-    }
-
-    @GetMapping("/update")
-    public String updateAmount(@RequestParam("id") Long productId,
-                               @RequestParam("amount") Long productAmount, Principal principal) {
-        if (principal == null) {
-            return "redirect:/products";
-        }
-        bucketService.updateAmount(principal.getName(), productId);
-        return "redirect:/bucket";
-    }*/
 }
 

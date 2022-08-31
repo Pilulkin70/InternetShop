@@ -1,11 +1,16 @@
 INSERT INTO users
-(id, archive, email, name, password, role)
-VALUES (3, false, 'petr@mail.ru', 'petr', 'pass', 'CLIENT');
+(id, role)
+VALUES (0, 'CLIENT');
 
 INSERT INTO users
-(id, archive, email, name, password, role)
-VALUES (4, false, 'tom@mail.ru', 'tom', 'pass', 'MANAGER');
+(id, email, name, password, role)
+VALUES (1, 'admin@mail.com', 'admin', 'admin', 'ADMIN');
 
 INSERT INTO users
-(id, archive, email, name, password, role)
-VALUES (5, false, 'admin@mail.ru', 'admin', 'adminpass', 'ADMIN');
+(id, email, name, password, role)
+VALUES (2, 'petr@mail.com', 'petr', 'pass', 'CLIENT');
+
+INSERT INTO users
+(id, email, name, password, role)
+VALUES (3, 'ivan@mail.com', 'ivan', 'pass', 'CLIENT');
+

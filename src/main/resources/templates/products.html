@@ -21,6 +21,16 @@
                     <a href="/products">All</a>
                 </li>
             </ul>
+            <h3 th:text="#{brand.filter.title}">Brands</h3>
+            <ul>
+                <li th:each="brand: ${brands}"><a
+                        th:href="@{/products/filterByBrand(brandId=${brand.id})}"
+                        th:text="${brand.title}"></a>
+                </li>
+                <li>
+                    <a href="/products">All</a>
+                </li>
+            </ul>
         </nav>
 
         <!--        <button sec:authorize="hasAuthority('ADMIN')" class="btn">-->
@@ -180,7 +190,7 @@
                         </div>
                         <div class="card-footer" th:if="${product.getAvailable()}">
                             <p th:text="'$'+${product.getPrice()}"></p>
-                            <a th:href="${'/products/' + product.getId()+'/bucket'}"
+                            <a th:href="${'/products/' + product.getId()+'/cart'}"
                                class="btn btn-lg btn-outline-info btn-block"
                                th:text="#{product.add}"></a>
                         </div>

@@ -1,6 +1,5 @@
 package ua.garmash.internetshop.controllers;
 
-
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -35,7 +34,6 @@ public class UserController {
         return "userList";
     }
 
-    //	@PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/new")
     public String newUser(Model model) {
         System.out.println("Called method newUser");
@@ -43,15 +41,6 @@ public class UserController {
 //        return "user";
         return "register";
     }
-
-/*	@PostAuthorize("isAuthenticated() and #username == authentication.principal.username")
-	@GetMapping("/{name}/roles")
-	@ResponseBody
-	public String getRoles(@PathVariable("name") String username){
-		System.out.println("Called method getRoles");
-		User byName = userService.findByName(username);
-		return byName.getRole().name();
-	}*/
 
     @PostMapping("/new")
     public String saveUser(UserDto dto, Model model) {
@@ -72,14 +61,6 @@ public class UserController {
         if (principal == null) {
             throw new RuntimeException("You are not authorize");
         }
-/*        User user = userService.findByName(principal.getName());
-
-        UserDto dto = UserDto.builder()
-                .username(user.getUsername())
-                .email(user.getEmail())
-                .build();
-        model.addAttribute("user", dto);*/
-//        model.addAttribute("user", userService.getByName(principal.getName()));
 
         UserDto userDto = userService.getUserDtoByName(principal.getName());
         List<OrderDto> ordersDto = orderService.getOrdersByUser(userDto.getUsername());
@@ -94,9 +75,6 @@ public class UserController {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ADMIN"))) {
-/*            if (dto.getPassword().isEmpty()){
-                dto.setPassword(userService.getById(dto.getId()).getPassword());
-            }*/
             userService.updateProfile(dto);
             return "redirect:/users/" + dto.getId() + "/edit";
         }

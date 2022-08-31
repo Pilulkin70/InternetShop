@@ -2,8 +2,8 @@ package ua.garmash.internetshop.service;
 
 import org.springframework.stereotype.Service;
 import ua.garmash.internetshop.dao.ProductRepository;
-import ua.garmash.internetshop.dto.BucketDetailDto;
-import ua.garmash.internetshop.dto.BucketDto;
+import ua.garmash.internetshop.dto.CartDetailDto;
+import ua.garmash.internetshop.dto.CartDto;
 import ua.garmash.internetshop.model.*;
 
 import javax.transaction.Transactional;
@@ -20,13 +20,15 @@ public class CartServiceImpl implements CartService {
     private final ProductRepository productRepository;
     private final UserService userService;
     private final OrderService orderService;
+    private final BasketService basketService;
 
 
-    public CartServiceImpl(Cart cart, ProductRepository productRepository, UserService userService, OrderService orderService) {
+    public CartServiceImpl(Cart cart, ProductRepository productRepository, UserService userService, OrderService orderService, BasketService basketService) {
         this.cart = cart;
         this.productRepository = productRepository;
         this.userService = userService;
         this.orderService = orderService;
+        this.basketService = basketService;
     }
 
     @Override
@@ -52,22 +54,33 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public BucketDto getCartDto() {
+    public void saveCart() {
 
-        BucketDto bucketDto = new BucketDto();
+//        TODO
+    }
 
-        List<BucketDetailDto> bucketDetailDtoList = new ArrayList<>(cart.getProducts().size());
+    @Override
+    public void loadCart() {
+//        TODO
+    }
+
+    @Override
+    public CartDto getCartDto() {
+
+        CartDto cartDto = new CartDto();
+
+        List<CartDetailDto> cartDetailDtoList = new ArrayList<>(cart.getProducts().size());
         cart.getProducts().entrySet().stream().forEach(entry -> {
-            BucketDetailDto detail = new BucketDetailDto(entry.getKey());
+            CartDetailDto detail = new CartDetailDto(entry.getKey());
             detail.setAmount(Double.valueOf(entry.getValue()));
             detail.setSum(entry.getValue() * entry.getKey().getPrice());
-            bucketDetailDtoList.add(detail);
+            cartDetailDtoList.add(detail);
         });
 
-        bucketDto.setBucketDetails(bucketDetailDtoList);
-        bucketDto.aggregate();
+        cartDto.setCartDetails(cartDetailDtoList);
+        cartDto.aggregate();
 
-        return bucketDto;
+        return cartDto;
     }
 
     @Override

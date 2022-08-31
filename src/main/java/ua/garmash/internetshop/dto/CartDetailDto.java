@@ -10,7 +10,7 @@ import ua.garmash.internetshop.model.Product;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BucketDetailDto {
+public class CartDetailDto {
     private Long productId;
     private String category;
     private String vendorCode;
@@ -20,7 +20,7 @@ public class BucketDetailDto {
     private Double amount;
     private Double sum;
 
-    public BucketDetailDto(Product product) {
+    public CartDetailDto(Product product) {
         this.productId = product.getId();
         this.category = product.getCategory().getTitle();
         this.title = product.getTitle();

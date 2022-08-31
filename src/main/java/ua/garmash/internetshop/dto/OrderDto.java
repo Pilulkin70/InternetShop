@@ -4,11 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ua.garmash.internetshop.model.*;
+import ua.garmash.internetshop.model.DeliveryOptions;
+import ua.garmash.internetshop.model.OrderStatus;
+import ua.garmash.internetshop.model.PaymentOptions;
+import ua.garmash.internetshop.model.User;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data

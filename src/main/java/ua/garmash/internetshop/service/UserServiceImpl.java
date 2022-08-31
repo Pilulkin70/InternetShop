@@ -33,9 +33,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> getAll() {
         return mapper.fromUserList(userRepository.findAll());
-/*        return userRepository.findAll().stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());*/
     }
 
     @Override
@@ -44,13 +41,6 @@ public class UserServiceImpl implements UserService {
         if (!Objects.equals(userDto.getPassword(), userDto.getMatchingPassword())) {
             throw new RuntimeException("Password is not equal");
         }
-/*        User user = User.builder()
-                .username(userDto.getUsername())
-                .password(passwordEncoder.encode(userDto.getPassword()))
-                .email(userDto.getEmail())
-                .role(Role.CLIENT)
-                .build();
-        userRepository.save(user);*/
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
         userDto.setRole(Role.CLIENT);
         userRepository.save(mapper.toUser(userDto));
@@ -136,13 +126,6 @@ public class UserServiceImpl implements UserService {
                 user.getPassword(),
                 roles);
     }
-
-/*    private UserDto toDto(User user) {
-        return UserDto.builder()
-                .username(user.getUsername())
-                .email(user.getEmail())
-                .build();
-    }*/
 
     @Override
     @Transactional

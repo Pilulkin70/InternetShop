@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 import ua.garmash.internetshop.model.Brand;
 import ua.garmash.internetshop.model.Category;
 
-import java.util.List;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

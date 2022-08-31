@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/header :: header-css">
+    <title>Bucket</title>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+
+<div class="container" th:if="${!cart.cartDetails.isEmpty()}">
+    <h2 th:text="#{cart.title}"></h2>
+    <br>
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered border-white">
+            <thead>
+            <tr align="center">
+                <th>Category</th>
+                <th>Vendor Code</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Amount</th>
+                <th>Total</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr id="cart" th:each="detail : ${cart.cartDetails}">
+                <td th:text="${detail.getCategory()}">Vendor Code</td>
+                <td th:text="${detail.getVendorCode}">Vendor Code</td>
+                <td th:text="${detail.getTitle()}">Title</td>
+                <td th:text="${detail.getDescription()}">Description</td>
+                <td th:text="${detail.getPrice()}" align="right">Price</td>
+                <td align="center">
+                    <a th:href="@{/cart/decamount(id=${detail.getProductId()})}" style="text-decoration: none;">
+                        <span class="material-icons" title="decrease">remove_circle_outline</span>
+                    </a>
+                    <span class="js-count" th:text="${detail.getAmount()}">0</span>
+                    <a th:href="@{/cart/incamount(id=${detail.getProductId()})}" style="text-decoration: none;">
+                        <span class="material-icons" title="increase">add_circle_outline</span>
+                    </a>
+                </td>
+                <td th:text="${detail.getAmount() * detail.getPrice()}" align="right">
+                    Total
+                </td>
+                <td align="center">
+                    <a th:href="@{/cart/delete(id=${detail.getProductId()})}">
+                        <span class="material-icons" style="color:red" title="delete">delete</span>
+                    </a>
+                </td>
+            </tr>
+            <tr style="font-weight:bold">
+                <td colspan="5"/>
+                <td th:text="#{cart.total}"></td>
+                <td th:text="${totalPrice}" align="right"></td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <div class="container">
+        <div class="row justify-content-between">
+            <form th:action="@{/cart}" method="post">
+                <button class="btn btn-info" type="submit" name="submit">Create Order</button>
+                <button class="btn btn-danger" type="submit" name="clear">Clear Cart</button>
+                <span sec:authorize="isAuthenticated()">
+                    <span>......................</span>
+                    <button class="btn btn-secondary" type="submit" name="save" style="margin-left: 40">Save Cart</button>
+                    <button class="btn btn-secondary" type="submit" name="load">Load Cart</button>
+                </span>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div th:if="${cart.cartDetails.isEmpty()}" class="col-3">
+    <h2 th:text="#{cart.empty}"></h2>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>

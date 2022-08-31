@@ -15,10 +15,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<Product> findAllByCategoryId(Long categoryId);
 
-/*    @Query(value="SELECT * FROM products WHERE to_tsvector(vendor_code) || to_tsvector(title) || to_tsvector(description) @@ plainto_tsquery(?1%)", nativeQuery=true)
-//    @Query("SELECT p FROM products p")
-    List<Product> findFullTextSearch(String searchString);*/
-
+    List<Product> findAllByBrandId(Long brandId);
     @Query(value = "select * from products p where upper(p.vendor_code) like %:keyword% or upper(p.title) like %:keyword% or upper(p.description) like %:keyword%", nativeQuery = true)
     List<Product> findByKeyword(@Param("keyword") String keyword);
 }
