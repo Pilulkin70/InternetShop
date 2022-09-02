@@ -1,13 +1,4 @@
 spring:
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: false
-  datasource:
-    driver-class-name: org.postgresql.Driver
-  flyway:
-    baseline-on-migrate: true
-    enabled: true
 logging:
   level:
     org.springframework.web: DEBUG

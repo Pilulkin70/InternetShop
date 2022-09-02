@@ -7,13 +7,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ua.garmash.internetshop.dto.OrderDto;
 import ua.garmash.internetshop.dto.UserDto;
 import ua.garmash.internetshop.service.OrderService;
 import ua.garmash.internetshop.service.UserService;
-import ua.garmash.internetshop.validator.UserValidator;
 
 import java.security.Principal;
 import java.util.List;
@@ -27,7 +25,7 @@ public class UserController {
     private final UserService userService;
     private final OrderService orderService;
 
-    public UserController(UserService userService, OrderService orderService, UserValidator userValidator) {
+    public UserController(UserService userService, OrderService orderService) {
         this.userService = userService;
         this.orderService = orderService;
     }
