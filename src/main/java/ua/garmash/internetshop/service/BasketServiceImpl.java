@@ -2,7 +2,7 @@ package ua.garmash.internetshop.service;
 
 
 import org.springframework.stereotype.Service;
-import ua.garmash.internetshop.dao.BasketRepository;
+import ua.garmash.internetshop.repository.BasketRepository;
 import ua.garmash.internetshop.model.*;
 
 import javax.transaction.Transactional;

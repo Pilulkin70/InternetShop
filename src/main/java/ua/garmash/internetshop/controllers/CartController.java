@@ -36,9 +36,9 @@ public class CartController {
     @PostMapping(params = "submit")
     public String commitCartToOrder(Principal principal) {
         if (principal != null) {
-            return "redirect:/order/" + cartService.commitCartToOrder(principal.getName()) + "/delivery";
+            return "redirect:/orders/" + cartService.commitCartToOrder(principal.getName()) + "/delivery";
         } else {
-            return "redirect:/order/" + cartService.commitCartToOrder(UUID.randomUUID().toString()) + "/delivery";
+            return "redirect:/orders/" + cartService.commitCartToOrder(UUID.randomUUID().toString()) + "/delivery";
         }
     }
 

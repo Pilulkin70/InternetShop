@@ -22,107 +22,111 @@
                     <div class="card shadow-0 border mb-4"
                          style="min-width: 100%;">
                         <div class="card-body" style="background-color:silver;">
-                                <form class="form-signin" autocomplete="off" th:action="@{/users/profile}"
-                                      th:object="${user}"
-                                      method="POST">
-                                    <fieldset>
-                                        <div>
-                                            <input type="hidden" th:field="*{id}" title="id"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <label th:text="#{user.username} + '*'"></label>
-                                            <input sec:authorize="hasAuthority('ADMIN')" type="text" th:field="*{username}" class="form-control input-lg"
-                                                   title="username"
-                                                   autofocus="true"/>
-                                            <input sec:authorize="!hasAuthority('ADMIN')" type="text" th:field="*{username}" class="form-control input-lg"
-                                                   title="username"
-                                                   autofocus="true" disabled/>
-                                            <div class="alert alert-danger error-alert"
-                                                 th:if="${#fields.hasErrors('username')}"
-                                                 th:errors="*{username}"></div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label th:text="#{user.new_password}"></label>
-                                            <input type="password" th:field="*{password}" class="form-control input-lg"
-                                                   title="password"/>
-                                            <div class="alert alert-danger error-alert"
-                                                 th:if="${#fields.hasErrors('password')}"
-                                                 th:errors="*{password}"></div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label th:text="#{user.confirm_new_password}"></label>
-                                            <input type="password" th:field="*{matchingPassword}"
-                                                   class="form-control input-lg"
-                                                   title="passwordConfirm"/>
-                                            <div class="alert alert-danger error-alert"
-                                                 th:if="${#fields.hasErrors('matchingPassword')}"
-                                                 th:errors="*{matchingPassword}"></div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label th:text="#{user.email} + '*'"></label>
-                                            <input type="email" th:field="*{email}" class="form-control input-lg"
-                                                   title="email" required/>
-                                            <div class="alert alert-danger error-alert"
-                                                 th:if="${#fields.hasErrors('email')}"
-                                                 th:errors="*{email}"></div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label th:text="#{user.phone}"></label>
-                                            <input type="text" th:field="*{phone}" class="form-control input-lg"
-                                                   title="phone"/>
-                                            <div class="alert alert-danger error-alert"
-                                                 th:if="${#fields.hasErrors('phone')}"
-                                                 th:errors="*{phone}"></div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label th:text="#{user.firstname}"></label>
-                                            <input type="text" th:field="*{firstName}" class="form-control input-lg"
-                                                   title="firstName"/>
-                                            <div class="alert alert-danger error-alert"
-                                                 th:if="${#fields.hasErrors('firstName')}"
-                                                 th:errors="*{firstName}"></div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label th:text="#{user.lastname}"></label>
-                                            <input type="text" th:field="*{lastName}" class="form-control input-lg"
-                                                   title="lastName"/>
-                                            <div class="alert alert-danger error-alert"
-                                                 th:if="${#fields.hasErrors('lastName')}"
-                                                 th:errors="*{lastName}"></div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label th:text="#{user.city}"></label>
-                                            <input type="text" th:field="*{city}" class="form-control input-lg"
-                                                   title="city"/>
-                                            <div class="alert alert-danger error-alert"
-                                                 th:if="${#fields.hasErrors('city')}"
-                                                 th:errors="*{city}"></div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label th:text="#{user.age} + '*'"></label>
-                                            <input type="number" th:field="*{age}" class="form-control input-lg"
-                                                   title="age"
-                                                   required="true"/>
-                                            <div class="alert alert-danger error-alert"
-                                                 th:if="${#fields.hasErrors('age')}"
-                                                 th:errors="*{age}"></div>
-                                        </div>
-                                        <div class="form-group" sec:authorize="hasAuthority('ADMIN')">
-                                            <label th:text="#{user.role} + '*'"></label>
-                                            <select th:field="*{role}" class="form-control custom-select-lg" required
-                                                    title="role">
-                                                <option value="CLIENT" th:text="CLIENT">CLIENT</option>
-                                                <option value="ADMIN" th:text="ADMIN">ADMIN</option>
-                                            </select>
-                                            <div class="alert alert-danger error-alert"
-                                                 th:if="${#fields.hasErrors('role')}"
-                                                 th:errors="*{role}"></div>
-                                        </div>
-                                        <p th:text="#{register.required}"></p>
-                                        <input class="btn btn-outline-dark" type="submit"
-                                               th:value="#{profile.button_save}"/>
-                                    </fieldset>
-                                </form>
+                            <form class="form-signin" autocomplete="off" th:action="@{/users/profile}"
+                                  th:object="${user}"
+                                  method="POST">
+                                <fieldset>
+                                    <div>
+                                        <input type="hidden" th:field="*{id}" title="id"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label th:text="#{user.username} + '*'"></label>
+                                        <input sec:authorize="hasAuthority('ADMIN')" type="text" th:field="*{username}"
+                                               class="form-control input-lg"
+                                               title="username"
+                                               autofocus="true"/>
+                                        <input sec:authorize="!hasAuthority('ADMIN')" type="text" th:field="*{username}"
+                                               class="form-control input-lg"
+                                               title="username"
+                                               autofocus="true" disabled/>
+                                        <input sec:authorize="!hasAuthority('ADMIN')" type="hidden"
+                                               th:field="*{username}" title="username"/>
+                                        <div class="alert alert-danger error-alert"
+                                             th:if="${#fields.hasErrors('username')}"
+                                             th:errors="*{username}"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label th:text="#{user.new_password}"></label>
+                                        <input type="password" th:field="*{password}" class="form-control input-lg"
+                                               title="password"/>
+                                        <div class="alert alert-danger error-alert"
+                                             th:if="${#fields.hasErrors('password')}"
+                                             th:errors="*{password}"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label th:text="#{user.confirm_new_password}"></label>
+                                        <input type="password" th:field="*{matchingPassword}"
+                                               class="form-control input-lg"
+                                               title="passwordConfirm"/>
+                                        <div class="alert alert-danger error-alert"
+                                             th:if="${#fields.hasErrors('matchingPassword')}"
+                                             th:errors="*{matchingPassword}"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label th:text="#{user.email} + '*'"></label>
+                                        <input type="email" th:field="*{email}" class="form-control input-lg"
+                                               title="email" required/>
+                                        <div class="alert alert-danger error-alert"
+                                             th:if="${#fields.hasErrors('email')}"
+                                             th:errors="*{email}"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label th:text="#{user.phone}"></label>
+                                        <input type="text" th:field="*{phone}" class="form-control input-lg"
+                                               title="phone"/>
+                                        <div class="alert alert-danger error-alert"
+                                             th:if="${#fields.hasErrors('phone')}"
+                                             th:errors="*{phone}"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label th:text="#{user.firstname}"></label>
+                                        <input type="text" th:field="*{firstName}" class="form-control input-lg"
+                                               title="firstName"/>
+                                        <div class="alert alert-danger error-alert"
+                                             th:if="${#fields.hasErrors('firstName')}"
+                                             th:errors="*{firstName}"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label th:text="#{user.lastname}"></label>
+                                        <input type="text" th:field="*{lastName}" class="form-control input-lg"
+                                               title="lastName"/>
+                                        <div class="alert alert-danger error-alert"
+                                             th:if="${#fields.hasErrors('lastName')}"
+                                             th:errors="*{lastName}"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label th:text="#{user.city}"></label>
+                                        <input type="text" th:field="*{city}" class="form-control input-lg"
+                                               title="city"/>
+                                        <div class="alert alert-danger error-alert"
+                                             th:if="${#fields.hasErrors('city')}"
+                                             th:errors="*{city}"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label th:text="#{user.age} + '*'"></label>
+                                        <input type="number" th:field="*{age}" class="form-control input-lg"
+                                               title="age"
+                                               required="true"/>
+                                        <div class="alert alert-danger error-alert"
+                                             th:if="${#fields.hasErrors('age')}"
+                                             th:errors="*{age}"></div>
+                                    </div>
+                                    <div class="form-group" sec:authorize="hasAuthority('ADMIN')">
+                                        <label th:text="#{user.role} + '*'"></label>
+                                        <select th:field="*{role}" class="form-control custom-select-lg" required
+                                                title="role">
+                                            <option value="CLIENT" th:text="CLIENT">CLIENT</option>
+                                            <option value="ADMIN" th:text="ADMIN">ADMIN</option>
+                                        </select>
+                                        <div class="alert alert-danger error-alert"
+                                             th:if="${#fields.hasErrors('role')}"
+                                             th:errors="*{role}"></div>
+                                    </div>
+                                    <p th:text="#{register.required}"></p>
+                                    <input class="btn btn-outline-dark" type="submit"
+                                           th:value="#{profile.button_save}"/>
+                                </fieldset>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -143,13 +147,13 @@
                         <div sec:authorize="hasAuthority('ADMIN')"
                              class="admin d-flex justify-content-between border-bottom">
                             <button class="btn">
-                                <a th:href="@{/order/{id}/delete(id=${order.getId()})}">
+                                <a th:href="@{/orders/{id}/delete(id=${order.getId()})}">
                                     <span class="material-icons">delete_forever</span>
                                 </a>
                             </button>
 
                             <button class="btn">
-                                <a th:href="@{/order/{id}(id=${order.getId()})}">
+                                <a th:href="@{/orders/{id}(id=${order.getId()})}">
                                     <span class="material-icons">edit</span>
                                 </a>
                             </button>
@@ -161,7 +165,7 @@
                          style="min-width: 100%;">
                         <div class="card-body">
                             <div class="row">
-                                <a th:href="@{/order/{id}(id=${order.getId()})}" class="stretched-link"></a>
+                                <a th:href="@{/orders/{id}(id=${order.getId()})}" class="stretched-link"></a>
 
                                 <table class="table table-hover table-bordered border-black">
                                     <thead>
@@ -183,7 +187,6 @@
                                         <td th:text="${order.sum}"></td>
                                         <td></td>
                                     </tr>
-
                                     </tbody>
                                 </table>
 
@@ -196,25 +199,29 @@
                                 <div class="col-md-10">
                                     <div class="progress" style="height: 6px; border-radius: 16px;">
 
-                                        <div th:if="${order.getStatus().toString() eq 'NEW'}" class="progress-bar" role="progressbar"
+                                        <div th:if="${order.getStatus().toString() eq 'NEW'}" class="progress-bar"
+                                             role="progressbar"
                                              style="width: 0%; border-radius: 16px; background-color: #a8729a;"
                                              aria-valuenow="0"
                                              aria-valuemin="0"
                                              aria-valuemax="100">
                                         </div>
-                                        <div th:if="${order.getStatus().toString() eq 'APPROVED'}" class="progress-bar" role="progressbar"
+                                        <div th:if="${order.getStatus().toString() eq 'APPROVED'}" class="progress-bar"
+                                             role="progressbar"
                                              style="width: 20%; border-radius: 16px; background-color: #a8729a;"
                                              aria-valuenow="20"
                                              aria-valuemin="0"
                                              aria-valuemax="100">
                                         </div>
-                                        <div th:if="${order.getStatus().toString() eq 'PAID'}" class="progress-bar" role="progressbar"
+                                        <div th:if="${order.getStatus().toString() eq 'PAID'}" class="progress-bar"
+                                             role="progressbar"
                                              style="width: 50%; border-radius: 16px; background-color: #a8729a;"
                                              aria-valuenow="50"
                                              aria-valuemin="0"
                                              aria-valuemax="100">
                                         </div>
-                                        <div th:if="${order.getStatus().toString() eq 'DELIVERED'}" class="progress-bar" role="progressbar"
+                                        <div th:if="${order.getStatus().toString() eq 'DELIVERED'}" class="progress-bar"
+                                             role="progressbar"
                                              style="width: 100%; border-radius: 16px; background-color: #a8729a;"
                                              aria-valuenow="100"
                                              aria-valuemin="0"
@@ -232,7 +239,8 @@
                         </div>
                     </div>
 
-                    <div th:each="detail : ${order.details}" class="card shadow-0 border mb-2" style="min-width: 97%; margin-left:24px;">
+                    <div th:each="detail : ${order.details}" class="card shadow-0 border mb-2"
+                         style="min-width: 97%; margin-left:24px;">
                         <div class="card-body">
                             <div class="row">
 

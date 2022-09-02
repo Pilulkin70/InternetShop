@@ -16,9 +16,11 @@ import ua.garmash.internetshop.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Controller
-@RequestMapping("/order")
+@RequestMapping("/orders")
 public class OrderController {
     private final OrderService orderService;
     private final UserService userService;
@@ -30,6 +32,7 @@ public class OrderController {
         this.emailService = emailService;
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/{id}")
     public String getById(@PathVariable Long id, Model model) {
         model.addAttribute("order", orderService.getOrderById(id));
@@ -40,7 +43,7 @@ public class OrderController {
     @PostMapping("/{id}")
     public String setById(@PathVariable Long id, OrderDto dto) {
         orderService.saveOrderFromDto(dto);
-        return "redirect:/order/" + id;
+        return "redirect:/orders/" + id;
     }
 
     @GetMapping("/thanks-for-order")
@@ -71,6 +74,10 @@ public class OrderController {
             if (orderDto.getAddress() == null) {
                 orderDto.setAddress(user.getCity());
             }
+        } else {
+            if (orderDto.getUser().getId() != 0L) {
+                return "redirect:/";
+            }
         }
         model.addAttribute("order", orderDto);
         return "delivery-pay";
@@ -79,17 +86,26 @@ public class OrderController {
     @PostMapping("/delivery")
     public String setDeliveryAndPayment(OrderDto dto, Principal principal) {
         dto.setStatus(OrderStatus.APPROVED);
+        User user;
         if (principal == null) {
-            dto.setUser(userService.getUserById(0L));
+            user = userService.getUserById(0L);
         } else {
-            dto.setUser(userService.getUserByName(principal.getName()));
+            user = userService.getUserByName(principal.getName());
         }
+        dto.setUser(user);
         orderService.saveOrderFromDto(dto);
         if (principal == null) {
-            return "redirect:/order/thanks-for-order";
+            return "redirect:/orders/thanks-for-order";
         }
-        emailService.sendSimpleMessage("gsv@ukr.net", "Serhii Harmash", "Thank you for order!");
-        return "redirect:/order/" + dto.getId();
+        if (dto.getEmail() != null && !dto.getEmail().isEmpty() && dto.getSendEmail()) {
+            String email = dto.getEmail();
+            String subject = user.getFirstName() + " " + user.getLastName();
+            LocalDateTime orderDate = dto.getChanged();
+            String msg = "Thank you for order N" + dto.getId() + " " +
+                    orderDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+            emailService.sendSimpleMessage(email, subject, msg);
+        }
+        return "redirect:/orders/" + dto.getId();
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")

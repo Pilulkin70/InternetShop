@@ -97,12 +97,12 @@
                             </div>
                             <div class="col-4 border">
                                 <h1 align="center">
-                                    <a th:href="@{/order/{id}/delivery(id=${order.getId()})}">EDIT</a>
+                                    <a th:href="@{/orders/{id}/delivery(id=${order.getId()})}">EDIT</a>
                                 </h1>
                                 <div style="min-width: 18rem; max-height: 15rem;" class="col card-deck-add my-2"
                                      sec:authorize="hasAuthority('ADMIN')">
                                     <form class="form-signin" autocomplete="off"
-                                          th:action="@{/order/{id}(id=${order.getId()})}"
+                                          th:action="@{/orders/{id}(id=${order.getId()})}"
                                           th:object="${order}"
                                           method="POST">
                                         <fieldset>

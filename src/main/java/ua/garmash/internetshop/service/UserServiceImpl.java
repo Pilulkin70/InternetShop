@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ua.garmash.internetshop.dao.UserRepository;
+import ua.garmash.internetshop.repository.UserRepository;
 import ua.garmash.internetshop.dto.UserDto;
 import ua.garmash.internetshop.mapper.UserMapper;
 import ua.garmash.internetshop.model.Role;

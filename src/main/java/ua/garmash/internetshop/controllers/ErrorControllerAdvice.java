@@ -13,8 +13,8 @@ public class ErrorControllerAdvice {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public String exception(Exception exception, Model model) {
         String errorMessage = (exception != null ? exception.getMessage() : "Unknown error");
-        String msg = exception.getCause().getMessage();
-        if (msg.equals("could not execute statement")){
+        String msg = (exception.getCause() == null ? "" : exception.getCause().getMessage());
+        if (msg.equals("could not execute statement")) {
             errorMessage = "You cannot delete an item that has already been purchased. Mark it as unavailable.";
         }
         model.addAttribute("errorMessage", errorMessage);

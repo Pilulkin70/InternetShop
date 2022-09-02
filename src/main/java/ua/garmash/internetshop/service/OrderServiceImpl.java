@@ -1,7 +1,7 @@
 package ua.garmash.internetshop.service;
 
 import org.springframework.stereotype.Service;
-import ua.garmash.internetshop.dao.OrderRepository;
+import ua.garmash.internetshop.repository.OrderRepository;
 import ua.garmash.internetshop.dto.OrderDto;
 import ua.garmash.internetshop.mapper.OrderDetailMapper;
 import ua.garmash.internetshop.mapper.OrderMapper;

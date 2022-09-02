@@ -7,11 +7,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ua.garmash.internetshop.dto.OrderDto;
 import ua.garmash.internetshop.dto.UserDto;
 import ua.garmash.internetshop.service.OrderService;
 import ua.garmash.internetshop.service.UserService;
+import ua.garmash.internetshop.validator.UserValidator;
 
 import java.security.Principal;
 import java.util.List;
@@ -25,7 +27,7 @@ public class UserController {
     private final UserService userService;
     private final OrderService orderService;
 
-    public UserController(UserService userService, OrderService orderService) {
+    public UserController(UserService userService, OrderService orderService, UserValidator userValidator) {
         this.userService = userService;
         this.orderService = orderService;
     }
@@ -45,9 +47,15 @@ public class UserController {
 
     @PostMapping("/new")
     public String saveUser(UserDto dto, Model model) {
+
         if (userService.findByName(dto.getUsername()) != null) {
-            logger.error(String.format("User with login '%s ' is already exist.", dto.getId()));
+            logger.error(String.format("User with login '%s ' is already exist.", dto.getUsername()));
             throw new RuntimeException("User with login '" + dto.getUsername() + "' is already exist");
+        }
+        int minAge = 18;
+        if (dto.getAge() < minAge) {
+            logger.error(String.format("User is so yang, %s", dto.getUsername()));
+            throw new RuntimeException("You are too young '" + dto.getUsername() + "'");
         }
         if (userService.save(dto)) {
             logger.debug(String.format("User with id: %s successfully created.", dto.getId()));
@@ -55,12 +63,11 @@ public class UserController {
             if (auth != null) {
                 if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ADMIN"))) {
                     return "redirect:/users";
-                } else {
+                } else if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("CLIENT"))) {
                     return "redirect:/users/profile";
                 }
-            } else {
-                return "redirect:/login";
             }
+            return "redirect:/login";
         } else {
             logger.debug(String.format("User with id: %s not created.", dto.getId()));
             model.addAttribute("user", dto);

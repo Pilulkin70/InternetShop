@@ -1,7 +1,7 @@
 package ua.garmash.internetshop.service;
 
 import org.springframework.stereotype.Service;
-import ua.garmash.internetshop.dao.CategoryRepository;
+import ua.garmash.internetshop.repository.CategoryRepository;
 import ua.garmash.internetshop.dto.CategoryDto;
 import ua.garmash.internetshop.mapper.CategoryMapper;
 import ua.garmash.internetshop.model.Category;

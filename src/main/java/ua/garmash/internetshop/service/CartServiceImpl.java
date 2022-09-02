@@ -1,7 +1,7 @@
 package ua.garmash.internetshop.service;
 
 import org.springframework.stereotype.Service;
-import ua.garmash.internetshop.dao.ProductRepository;
+import ua.garmash.internetshop.repository.ProductRepository;
 import ua.garmash.internetshop.dto.CartDetailDto;
 import ua.garmash.internetshop.dto.CartDto;
 import ua.garmash.internetshop.model.*;

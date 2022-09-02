@@ -21,7 +21,7 @@
                     <div class="card shadow-0 border mb-4" style="min-width: 100%;">
                         <div class="card-body" style="background-color:#A3E4D7;">
 
-                            <form class="form-signin" autocomplete="off" th:action="@{/order/delivery}"
+                            <form class="form-signin" autocomplete="off" th:action="@{/orders/delivery}"
                                   th:object="${order}"
                                   method="POST">
                                 <fieldset>
@@ -104,9 +104,14 @@
                                              th:if="${#fields.hasErrors('delivery')}"
                                              th:errors="*{delivery}"></div>
                                     </div>
+                                    <div class="col-xs-4">
                                     <p th:text="#{register.required}"></p>
                                     <input class="btn btn-outline-dark" type="submit"
                                            th:value="'Approve'"/>
+                                        <label>Send E-mail</label>
+                                        <input type="checkbox" name="sendEmail" value="false" th:field="*{sendEmail}"
+                                               th:checked="${false}"/>
+                                    </div>
                                 </fieldset>
                             </form>
                         </div>
@@ -142,14 +147,14 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                        <tr align="center">
-                                            <td th:text="${order.getId()}"></td>
-                                            <td th:text="${#temporals.format(order.created,'dd-MM-yyyy')}"></td>
-                                            <td th:text="${#temporals.format(order.changed,'dd-MM-yyyy')}"></td>
-                                            <td th:text="${order.status}"></td>
-                                            <td th:text="${order.sum}"></td>
-                                            <td></td>
-                                        </tr>
+                                    <tr align="center">
+                                        <td th:text="${order.getId()}"></td>
+                                        <td th:text="${#temporals.format(order.created,'dd-MM-yyyy')}"></td>
+                                        <td th:text="${#temporals.format(order.changed,'dd-MM-yyyy')}"></td>
+                                        <td th:text="${order.status}"></td>
+                                        <td th:text="${order.sum}"></td>
+                                        <td></td>
+                                    </tr>
                                     </tbody>
                                 </table>
 
@@ -162,25 +167,29 @@
                                 <div class="col-md-10">
                                     <div class="progress" style="height: 6px; border-radius: 16px;">
 
-                                        <div th:if="${order.getStatus().toString() eq 'NEW'}" class="progress-bar" role="progressbar"
+                                        <div th:if="${order.getStatus().toString() eq 'NEW'}" class="progress-bar"
+                                             role="progressbar"
                                              style="width: 0%; border-radius: 16px; background-color: #a8729a;"
                                              aria-valuenow="0"
                                              aria-valuemin="0"
                                              aria-valuemax="100">
                                         </div>
-                                        <div th:if="${order.getStatus().toString() eq 'APPROVED'}" class="progress-bar" role="progressbar"
+                                        <div th:if="${order.getStatus().toString() eq 'APPROVED'}" class="progress-bar"
+                                             role="progressbar"
                                              style="width: 20%; border-radius: 16px; background-color: #a8729a;"
                                              aria-valuenow="20"
                                              aria-valuemin="0"
                                              aria-valuemax="100">
                                         </div>
-                                        <div th:if="${order.getStatus().toString() eq 'PAID'}" class="progress-bar" role="progressbar"
+                                        <div th:if="${order.getStatus().toString() eq 'PAID'}" class="progress-bar"
+                                             role="progressbar"
                                              style="width: 50%; border-radius: 16px; background-color: #a8729a;"
                                              aria-valuenow="50"
                                              aria-valuemin="0"
                                              aria-valuemax="100">
                                         </div>
-                                        <div th:if="${order.getStatus().toString() eq 'DELIVERED'}" class="progress-bar" role="progressbar"
+                                        <div th:if="${order.getStatus().toString() eq 'DELIVERED'}" class="progress-bar"
+                                             role="progressbar"
                                              style="width: 100%; border-radius: 16px; background-color: #a8729a;"
                                              aria-valuenow="100"
                                              aria-valuemin="0"

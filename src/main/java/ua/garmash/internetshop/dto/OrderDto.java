@@ -24,6 +24,7 @@ public class OrderDto {
     private String recipient;
     private String phone;
     private String email;
+    private Boolean sendEmail;
     private PaymentOptions payment;
     private DeliveryOptions delivery;
     private OrderStatus status;

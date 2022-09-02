@@ -1,4 +1,4 @@
-package ua.garmash.internetshop.dao;
+package ua.garmash.internetshop.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

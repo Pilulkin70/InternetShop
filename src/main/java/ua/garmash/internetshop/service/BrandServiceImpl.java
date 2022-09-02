@@ -1,7 +1,7 @@
 package ua.garmash.internetshop.service;
 
 import org.springframework.stereotype.Service;
-import ua.garmash.internetshop.dao.BrandRepository;
+import ua.garmash.internetshop.repository.BrandRepository;
 import ua.garmash.internetshop.dto.BrandDto;
 import ua.garmash.internetshop.mapper.BrandMapper;
 import ua.garmash.internetshop.model.Brand;

@@ -3,7 +3,7 @@ package ua.garmash.internetshop.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import ua.garmash.internetshop.dao.ProductRepository;
+import ua.garmash.internetshop.repository.ProductRepository;
 import ua.garmash.internetshop.dto.ProductDto;
 import ua.garmash.internetshop.mapper.ProductMapper;
 import ua.garmash.internetshop.model.Product;
