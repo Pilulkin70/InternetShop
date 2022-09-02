@@ -66,7 +66,7 @@
                 <button class="btn btn-danger" type="submit" name="clear">Clear Cart</button>
                 <span sec:authorize="isAuthenticated()">
                     <span>......................</span>
-                    <button class="btn btn-secondary" type="submit" name="save" style="margin-left: 40">Save Cart</button>
+                    <button class="btn btn-success" type="submit" name="save" style="margin-left: 40">Save Cart</button>
                     <button class="btn btn-secondary" type="submit" name="load">Load Cart</button>
                 </span>
             </form>
@@ -76,6 +76,11 @@
 
 <div th:if="${cart.cartDetails.isEmpty()}" class="col-3">
     <h2 th:text="#{cart.empty}"></h2>
+    <form th:action="@{/cart}" method="post">
+        <span sec:authorize="isAuthenticated()">
+            <button class="btn btn-secondary" type="submit" name="load">Load Cart</button>
+        </span>
+    </form>
 </div>
 
 <div th:replace="fragments/footer :: footer"></div>

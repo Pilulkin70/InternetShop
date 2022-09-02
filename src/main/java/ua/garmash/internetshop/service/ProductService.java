@@ -10,7 +10,6 @@ public interface ProductService {
     List<ProductDto> getAll(Pageable pageable);
     Page getPage();
     List<ProductDto> getByKeyword(String searchString);
-    void addToUserBucket(Long productId, String username);
     void addToUserCart(Long productId);
 
     void addProduct(ProductDto dto);
@@ -25,5 +24,5 @@ public interface ProductService {
 
     List<ProductDto> findAllByBrandId(Long brandId);
 
-    void save(Long productId, ProductDto productDto);
+    void updateById(Long productId, ProductDto productDto);
 }

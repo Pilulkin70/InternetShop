@@ -41,9 +41,6 @@ public class ProductController {
         model.addAttribute("brands", brandService.findAll());
         model.addAttribute("page", productService.getPage().getNumber());
         ArrayList<String> pageNumbers = new ArrayList<>(productService.getPage().getTotalPages());
-/*        List<Integer> pageNumbers = IntStream.rangeClosed(1, productService.getPage().getTotalPages())
-                .boxed()
-                .collect(Collectors.toList());*/
         for (int i = 0; i < productService.getPage().getTotalPages(); i++) {
             pageNumbers.add(Integer.toString(i));
         }
@@ -55,15 +52,12 @@ public class ProductController {
     public String addBucket(@PathVariable Long id, Principal principal, HttpServletRequest request) {
         String referer = request.getHeader("Referer");
         productService.addToUserCart(id);
-        if (principal != null) {
-            productService.addToUserBucket(id, principal.getName());
-        }
         return "redirect:" + referer;
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/{id}/delete")
-    public String delProduct(@PathVariable Long id, Principal principal) {
+    public String deleteProduct(@PathVariable Long id, Principal principal) {
         if (principal == null) {
             return "redirect:/products";
         }
@@ -73,7 +67,7 @@ public class ProductController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/{id}/invert-available")
-    public String invertAvailabilityProduct(@PathVariable Long id, Principal principal) {
+    public String invertProductAvailability(@PathVariable Long id, Principal principal) {
         if (principal == null) {
             return "redirect:/products";
         }
@@ -82,11 +76,9 @@ public class ProductController {
     }
 
     @PostMapping
-//	public ResponseEntity<Void> addProduct(ProductDto dto){
     public String addProduct(ProductDto dto) {
         dto.setAvailable(true);
         productService.addProduct(dto);
-//		return ResponseEntity.status(HttpStatus.CREATED).build();
         return "redirect:/products";
     }
 
@@ -126,6 +118,7 @@ public class ProductController {
             model.addAttribute("products", productService.getByKeyword(keyword));
         }
         model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("brands", brandService.findAll());
         model.addAttribute("page", 0);
         model.addAttribute("pages", new ArrayList<String>(1));
         return "products";
@@ -166,7 +159,7 @@ public class ProductController {
             model.addAttribute("brands", brandService.findAll());
             return "product";
         } else {
-            return "error/404";
+            throw new RuntimeException("Product Id exception.");
         }
     }
 
@@ -180,7 +173,7 @@ public class ProductController {
             model.addAttribute("method", "edit");
             return "product";
         }
-        productService.save(productId, productForm);
+        productService.updateById(productId, productForm);
         logger.debug(String.format("Product with id: %s has been successfully edited.", productId));
 
         return "redirect:/products";
@@ -188,7 +181,7 @@ public class ProductController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(value = "/{id}/edit", params = "cancel")
-    public String cancelProduct(@PathVariable("id") long productId) {
+    public String cancel(@PathVariable("id") long productId) {
         logger.debug(String.format("Product with id: %s. Edit canceled.", productId));
         return "redirect:/products";
     }

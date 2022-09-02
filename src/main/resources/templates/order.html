@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <head th:replace="fragments/header :: header-css">
 </head>
@@ -15,10 +16,7 @@
             <div class="col-lg-12 col-xl-12">
                 <div class="card" style="border-radius: 10px; min-width: 100%;">
                     <div class="card-header px-4 py-5">
-                        <h5 class="text-muted mb-0">Thanks for your Order!
-                            <!--                            <span style="color: #f0729a;"
-                                                         th:text="${#authentication.getPrincipal().getUsername().toUpperCase()}">Guest</span>!-->
-                        </h5>
+                        <h5 class="text-muted mb-0">Thanks for your Order!</h5>
                     </div>
                     <div class="card-body p-4">
 
@@ -58,13 +56,14 @@
                     </div>
                     <div class="card-footer border-0 px-4 py-5"
                          style="background-color: #a8729a; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
-                        <h5 class="d-flex align-items-center justify-content-end text-white text-uppercase mb-0">Total sum :
+                        <h5 class="d-flex align-items-center justify-content-end text-white text-uppercase mb-0">Total
+                            sum :
                             <span class="h2 mb-0 ms-2" th:text="${order.getSum()}"> $0</span></h5>
                     </div>
                     <div class="container">
                         <div class="row">
                             <div class="col-4 border">
-                                <div class="d-flex justify-content-center pt-2">
+                                <div class="d-flex justify-content-center pt-2 pb-2">
                                     <p class="fw-bold mb-0">Order summary</p>
                                 </div>
                                 <p class="fw-bold mb-0" th:text="'Order Number : '+ ${order.getId()}"></p>
@@ -72,23 +71,94 @@
                                    th:text="'Order Data : '+${#temporals.format(order.getChanged(), 'dd-MM-yyyy HH:mm')}">
                                     Invoice Date : 20-12-2000</p>
                                 <p class="fw-bold mb-0">Discount : $0.00</p>
-                                <p class="fw-bold mb-0" th:text="'Total paid : ' + ${order.getSum()}"></p>
+                                <p class="fw-bold mb-0" th:text="'Total paid : $' + ${order.getSum()}"></p>
                             </div>
 
                             <div class="col-4 border">
-                                <div class="d-flex justify-content-center pt-2">
+                                <div class="d-flex justify-content-center pt-2 pb-2">
                                     <p class="fw-bold mb-0">Delivery</p>
                                 </div>
-                                <p class="fw-bold mb-0" th:text="'Delivery method : '+ ${order.getDelivery()}"></p>
+                                <div th:if="${order.getDelivery() ne null}">
+                                    <p th:if="${order.getDelivery().toString() eq 'DELIVERY_COMPANY'}"
+                                       class="fw-bold mb-0"
+                                       th:text="'Delivery method : Delivery company'"></p>
+                                    <p th:if="${order.getDelivery().toString() eq 'SELF_DELIVERY'}" class="fw-bold mb-0"
+                                       th:text="'Delivery method : Self-delivery'"></p>
+                                    <p th:if="${order.getDelivery().toString() eq 'COURIER'}" class="fw-bold mb-0"
+                                       th:text="'Delivery method : Courier delivery'"></p>
+                                </div>
+                                <div th:if="${order.getDelivery() eq null}">
+                                    <p class="fw-bold mb-0"
+                                       th:text="'Delivery method :'"></p>
+                                </div>
                                 <p class="fw-bold mb-0" th:text="'Recipient : '+ ${order.getRecipient}"></p>
                                 <p class="fw-bold mb-0" th:text="'Phone : '+ ${order.getPhone}"></p>
-                                <p class="fw-bold mb-0" th:text="'Address : '+ ${order.getAddress}"></p>
-
-
-                                <div class="d-flex justify-content-between mb-5">
-                                    <p class="text-muted mb-0">Receipts Voucher : 18KU-62IIK</p>
-                                    <p class="text-muted mb-0"><span class="fw-bold me-4">Delivery Charges</span>
-                                        Free</p>
+                                <p class="fw-bold mb-0 pb-3" th:text="'Address : '+ ${order.getAddress}"></p>
+                            </div>
+                            <div class="col-4 border">
+                                <h1 align="center">
+                                    <a th:href="@{/order/{id}/delivery(id=${order.getId()})}">EDIT</a>
+                                </h1>
+                                <div style="min-width: 18rem; max-height: 15rem;" class="col card-deck-add my-2"
+                                     sec:authorize="hasAuthority('ADMIN')">
+                                    <form class="form-signin" autocomplete="off"
+                                          th:action="@{/order/{id}(id=${order.getId()})}"
+                                          th:object="${order}"
+                                          method="POST">
+                                        <fieldset>
+                                            <h5 align="center">Status</h5>
+                                            <div class="row">
+                                                <div class="col-8">
+                                                    <div>
+                                                        <input type="hidden" th:field="*{id}" title="id"/>
+                                                    </div>
+                                                    <div>
+                                                        <input type="hidden" th:field="*{user.id}" title="userId"/>
+                                                    </div>
+                                                    <div>
+                                                        <input type="hidden" th:field="*{sum}" title="sum"/>
+                                                    </div>
+                                                    <div>
+                                                        <input type="hidden" th:field="*{created}" title="created"/>
+                                                    </div>
+                                                    <div>
+                                                        <input type="hidden" th:field="*{changed}" title="changed"/>
+                                                    </div>
+                                                    <div>
+                                                        <input type="hidden" th:field="*{address}" title="address"/>
+                                                    </div>
+                                                    <div>
+                                                        <input type="hidden" th:field="*{email}" title="email"/>
+                                                    </div>
+                                                    <div>
+                                                        <input type="hidden" th:field="*{recipient}" title="recipient"/>
+                                                    </div>
+                                                    <div>
+                                                        <input type="hidden" th:field="*{phone}" title="phone"/>
+                                                    </div>
+                                                    <div>
+                                                        <input type="hidden" th:field="*{payment}" title="payment"/>
+                                                    </div>
+                                                    <div>
+                                                        <input type="hidden" th:field="*{delivery}" title="delivery"/>
+                                                    </div>
+                                                    <select th:field="*{status}" class="form-control custom-select-lg"
+                                                            required
+                                                            title="status">
+                                                        <option value="NEW" th:text="'New'">New</option>
+                                                        <option value="APPROVED" th:text="'Approved'">Approved</option>
+                                                        <option value="PAID" th:text="'Paid'">Paid</option>
+                                                        <option value="DELIVERED" th:text="'Delivered'">Delivered
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-4">
+                                                    <input class="btn btn-outline-dark" type="submit"
+                                                           th:value="'Set status'"/>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </form>
                                 </div>
                             </div>
                         </div>

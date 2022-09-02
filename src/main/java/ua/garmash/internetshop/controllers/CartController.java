@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ua.garmash.internetshop.dto.CartDto;
+import ua.garmash.internetshop.model.User;
 import ua.garmash.internetshop.service.CartService;
+import ua.garmash.internetshop.service.UserService;
 
 import java.security.Principal;
 import java.util.UUID;
@@ -16,9 +18,11 @@ import java.util.UUID;
 @RequestMapping("/cart")
 public class CartController {
     private final CartService cartService;
+    private final UserService userService;
 
-    public CartController(CartService cartService) {
+    public CartController(CartService cartService, UserService userService) {
         this.cartService = cartService;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -45,14 +49,20 @@ public class CartController {
     }
 
     @PostMapping(params = "save")
-    public String saveCart() {
-        cartService.saveCart();
+    public String saveCart(Principal principal) {
+        if (principal != null) {
+            User user = userService.getUserByName(principal.getName());
+            cartService.saveCartToBasket(user);
+        }
         return "redirect:/cart";
     }
 
     @PostMapping(params = "load")
-    public String loadCart() {
-        cartService.loadCart();
+    public String loadCart(Principal principal) {
+        if (principal != null) {
+            User user = userService.getUserByName(principal.getName());
+            cartService.loadCartFromBasket(user);
+        }
         return "redirect:/cart";
     }
 

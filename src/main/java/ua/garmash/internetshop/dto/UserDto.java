@@ -1,7 +1,6 @@
 package ua.garmash.internetshop.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ua.garmash.internetshop.model.Role;
@@ -9,7 +8,6 @@ import ua.garmash.internetshop.model.Role;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class UserDto {
 	private Long id;
 	private String username;

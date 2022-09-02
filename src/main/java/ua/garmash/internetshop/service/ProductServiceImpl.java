@@ -6,9 +6,7 @@ import org.springframework.stereotype.Service;
 import ua.garmash.internetshop.dao.ProductRepository;
 import ua.garmash.internetshop.dto.ProductDto;
 import ua.garmash.internetshop.mapper.ProductMapper;
-import ua.garmash.internetshop.model.Basket;
 import ua.garmash.internetshop.model.Product;
-import ua.garmash.internetshop.model.User;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -24,7 +22,6 @@ public class ProductServiceImpl implements ProductService {
 
     private static Page page;
 
-
     public ProductServiceImpl(ProductRepository productRepository,
                               UserService userService,
                               BasketService basketService,
@@ -33,7 +30,6 @@ public class ProductServiceImpl implements ProductService {
         this.userService = userService;
         this.basketService = basketService;
         this.cartService = cartService;
-
     }
 
     @Override
@@ -42,16 +38,11 @@ public class ProductServiceImpl implements ProductService {
         page = productPage;
         List<Product> listOfProducts = productPage.getContent();
         return mapper.fromProductList(listOfProducts);
-//        return mapper.fromProductList(productRepository.findAll(pageable));
     }
 
     public Page getPage(){
         return page;
     }
-
-/*    public List<ProductDto> getFullTextSearch(String searchString) {
-        return mapper.fromProductList(productRepository.findFullTextSearch(searchString));
-    }*/
 
     @Override
     public List<ProductDto> getByKeyword(String searchString) {
@@ -60,26 +51,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void addToUserCart(Long productId) {
-        cartService.addToCart(productId);
-    }
-
-    @Override
-    @Transactional
-    public void addToUserBucket(Long productId, String username) {
-        User user = userService.findByName(username);
-        if (user == null) {
-            throw new RuntimeException("User not found. " + username);
-        }
-
-        Basket basket = user.getBasket();
-        if (basket == null) {
-            Basket newBasket = basketService.createBasket(user, productId);
-            user.setBasket(newBasket);
-            userService.save(user);
-        } else {
-//            bucketService.addProducts(bucket, Collections.singletonList(productId));
-            basketService.addItem(basket, productId);
-        }
+        cartService.addProductToCart(productId);
     }
 
     @Override
@@ -124,7 +96,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public void save(Long productId, ProductDto productDto) {
+    public void updateById(Long productId, ProductDto productDto) {
         Product product = productRepository.findById(productId).get();
         if (product == null) {
             throw new RuntimeException("Product not found. ID=" + productId);

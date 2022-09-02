@@ -32,7 +32,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Cart addToCart(Long productId) {
+    public Cart addProductToCart(Long productId) {
         cart.getProducts().merge(productRepository.getOne(productId), 1L, (v1, v2) -> v1 + v2);
         return cart;
     }
@@ -43,7 +43,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void updateCartProductAmount(Long productId, final long amountDif) {
+    public void updateCartProductAmount(Long productId, long amountDif) {
         cart.getProducts().computeIfPresent(productRepository.getOne(productId),
                 (key, value) -> (value + amountDif) > 1 ? value + amountDif : 1L);
     }
@@ -54,14 +54,18 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void saveCart() {
-
-//        TODO
+    public void saveCartToBasket(User user) {
+        basketService.saveCartToBasket(user, cart);
     }
 
     @Override
-    public void loadCart() {
-//        TODO
+    public void loadCartFromBasket(User user) {
+        Map<Product, Long> items = basketService.getItemsFromBasket(user);
+        if (items.size() != 0) {
+            clearCart();
+            cart.getProducts().putAll(items);
+            basketService.deleteBasket(user);
+        }
     }
 
     @Override

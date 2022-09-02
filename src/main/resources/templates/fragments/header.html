@@ -64,8 +64,6 @@
                 <li>
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <span th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}">
-<!--                        <a class="btn btn-primary" th:href="@{'?locale=en'}">EN</a>-->
-<!--                        <a class="btn btn-primary" th:href="@{'?locale=ru'}">RU</a>-->
                         <a class="btn btn-primary"
                            th:href="@{${urlBuilder.replaceQueryParam('locale', 'en').toUriString()}}">EN</a>
                         <a class="btn btn-primary"

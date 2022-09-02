@@ -14,3 +14,13 @@ logging:
 server:
   hostname: localhost
   port: ${PORT:8080}
+mail:
+  server:
+    host: smtp.gmail.com
+    port: 587
+    #    port: 465
+    username: testsendmail1970@gmail.com
+    password: xajnverxoiafltty
+    #    password: ${hidden.email.password}
+    properties:mail:smtp: auth=true
+    properties:mail:smtp:starttls: enable=true

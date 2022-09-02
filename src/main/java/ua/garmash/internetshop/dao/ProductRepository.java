@@ -16,6 +16,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findAllByCategoryId(Long categoryId);
 
     List<Product> findAllByBrandId(Long brandId);
+
     @Query(value = "select * from products p where upper(p.vendor_code) like %:keyword% or upper(p.title) like %:keyword% or upper(p.description) like %:keyword%", nativeQuery = true)
     List<Product> findByKeyword(@Param("keyword") String keyword);
 }

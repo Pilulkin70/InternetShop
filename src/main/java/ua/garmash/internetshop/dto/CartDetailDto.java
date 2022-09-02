@@ -1,7 +1,6 @@
 package ua.garmash.internetshop.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ua.garmash.internetshop.model.Product;
@@ -9,7 +8,6 @@ import ua.garmash.internetshop.model.Product;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class CartDetailDto {
     private Long productId;
     private String category;

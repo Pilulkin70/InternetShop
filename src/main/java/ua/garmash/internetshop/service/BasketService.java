@@ -1,17 +1,16 @@
 package ua.garmash.internetshop.service;
 
-import ua.garmash.internetshop.dto.CartDto;
-import ua.garmash.internetshop.model.Basket;
+import ua.garmash.internetshop.model.Cart;
+import ua.garmash.internetshop.model.Product;
 import ua.garmash.internetshop.model.User;
 
+import java.util.Map;
+
 public interface BasketService {
-    Basket createBasket(User user, Long productId);
 
-    void addItem(Basket basket, Long productIds);
+    void deleteBasket(User user);
 
-    void delItemsById(String userName, Long productId);
+    void saveCartToBasket(User user, Cart cart);
 
-    Basket getBasketByUser(String userName);
-
-    void clearBasket(String userName);
+    Map<Product, Long> getItemsFromBasket(User user);
 }

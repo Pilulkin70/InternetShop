@@ -32,6 +32,6 @@ public class User {
     private Role role;
     @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
     private Basket basket;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Order> orders;
 }
