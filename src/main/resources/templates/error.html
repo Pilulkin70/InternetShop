@@ -7,15 +7,12 @@
 
 <body>
     <div th:replace="fragments/header :: header"></div>
-
     <div class="container">
         <div class="starter-template">
             <h1 th:text=" #{error.title} + ' ' + ${errorMessage}"></h1>
             <a href="/" th:text="#{home.back}"></a>
         </div>
     </div>
-
     <div th:replace="fragments/footer :: footer"></div>
 </body>
-
 </html>

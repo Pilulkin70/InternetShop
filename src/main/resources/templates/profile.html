@@ -12,12 +12,10 @@
 <div class="container">
     <div class="row">
         <div class="col-5">
-
             <div class="card" style="border-radius: 10px; min-width: 100%;">
                 <div class="card-header px-4 py-1">
                     <h1 class="text-muted mb-0" th:text="#{profile.title}"></h1>
                 </div>
-
                 <div class="card-body p-4">
                     <div class="card shadow-0 border mb-4"
                          style="min-width: 100%;">
@@ -133,16 +131,12 @@
             </div>
         </div>
 
-
         <div class="col-7">
-
             <div class="card" style="border-radius: 10px; min-width: 100%;">
                 <div class="card-header px-4 py-1">
                     <h1 class="text-muted mb-0">Orders</h1>
                 </div>
-
                 <div class="card-body p-4" th:if="${!orders.isEmpty()}" th:each="order : ${orders}">
-
                     <div class="row no-border border-top">
                         <div sec:authorize="hasAuthority('ADMIN')"
                              class="admin d-flex justify-content-between border-bottom">
@@ -151,7 +145,6 @@
                                     <span class="material-icons">delete_forever</span>
                                 </a>
                             </button>
-
                             <button class="btn">
                                 <a th:href="@{/orders/{id}(id=${order.getId()})}">
                                     <span class="material-icons">edit</span>
@@ -160,45 +153,40 @@
                         </div>
                     </div>
 
-
                     <div class="card shadow-0 border mb-1"
                          style="min-width: 100%;">
                         <div class="card-body">
                             <div class="row">
                                 <a th:href="@{/orders/{id}(id=${order.getId()})}" class="stretched-link"></a>
-
                                 <table class="table table-hover table-bordered border-black">
                                     <thead>
-                                    <tr align="center">
-                                        <th>Order N</th>
-                                        <th>Order creation date</th>
-                                        <th>Date of the order</th>
-                                        <th>Status</th>
-                                        <th>Total</th>
-                                        <th></th>
-                                    </tr>
+                                        <tr align="center">
+                                            <th>Order N</th>
+                                            <th>Order creation date</th>
+                                            <th>Date of the order</th>
+                                            <th>Status</th>
+                                            <th>Total</th>
+                                            <th></th>
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                    <tr align="center">
-                                        <td th:text="${order.getId()}"></td>
-                                        <td th:text="${#temporals.format(order.created,'dd-MM-yyyy')}"></td>
-                                        <td th:text="${#temporals.format(order.changed,'dd-MM-yyyy')}"></td>
-                                        <td th:text="${order.status}"></td>
-                                        <td th:text="${order.sum}"></td>
-                                        <td></td>
-                                    </tr>
+                                        <tr align="center">
+                                            <td th:text="${order.getId()}"></td>
+                                            <td th:text="${#temporals.format(order.created,'dd-MM-yyyy')}"></td>
+                                            <td th:text="${#temporals.format(order.changed,'dd-MM-yyyy')}"></td>
+                                            <td th:text="${order.status}"></td>
+                                            <td th:text="${order.sum}"></td>
+                                            <td></td>
+                                        </tr>
                                     </tbody>
                                 </table>
-
                             </div>
-
                             <div class="row d-flex align-items-center">
                                 <div class="col-md-2">
                                     <p class="text-muted mb-0 small">Track Order</p>
                                 </div>
                                 <div class="col-md-10">
                                     <div class="progress" style="height: 6px; border-radius: 16px;">
-
                                         <div th:if="${order.getStatus().toString() eq 'NEW'}" class="progress-bar"
                                              role="progressbar"
                                              style="width: 0%; border-radius: 16px; background-color: #a8729a;"
@@ -227,7 +215,6 @@
                                              aria-valuemin="0"
                                              aria-valuemax="100">
                                         </div>
-
                                     </div>
                                     <div class="d-flex justify-content-around mb-1">
                                         <p class="text-muted mt-1 mb-0 small ms-xl-5">Approved</p>
@@ -238,12 +225,10 @@
                             </div>
                         </div>
                     </div>
-
                     <div th:each="detail : ${order.details}" class="card shadow-0 border mb-2"
                          style="min-width: 97%; margin-left:24px;">
                         <div class="card-body">
                             <div class="row">
-
                                 <div class="col-md-2">
                                     <img class="img-fluid" th:if="${detail.getProduct().getImgUrl().isEmpty()}"
                                          th:src="@{https://d2gg9evh47fn9z.cloudfront.net/800px_COLOURBOX7389458.jpg}"
@@ -276,7 +261,7 @@
         </div>
     </div>
 </div>
+
 <div th:replace="fragments/footer :: footer"></div>
 </body>
-
 </html>

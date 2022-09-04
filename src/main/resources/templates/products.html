@@ -1,5 +1,6 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
+<html lang="en"
+      xmlns:th="http://www.w3.org/1999/xhtml"
       xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:replace="fragments/header :: header-css">
     <meta charset="UTF-8">
@@ -32,22 +33,14 @@
                 </li>
             </ul>
         </nav>
-
-        <!--        <button sec:authorize="hasAuthority('ADMIN')" class="btn">-->
-        <!--            <a th:href="@{product/new}"><i class="fas fa-plus fa-2x"></i></a>-->
-        <!--        </button>-->
-
-        <!--            <div class="col card-deck ml-5 my-3" th:if="${!products.isEmpty()}" th:each="product : ${products}">-->
         <div style="margin-left: 150px; width: 90%">
             <div class="row">
-
                 <nav aria-label="Page navigation example" th:if="${pages.size()} gt 1">
                     <ul class="pagination">
                         <li class="page-item disabled">
                             <a class="page-link" href="#" tabindex="-1" th:text="#{product.pages}">Pages</a>
                         </li>
                         <div th:each="el,state:${pages}">
-                            <!--                            <li class="page-item"><a class="page-link" th:href="@{'?page='+${el}}"-->
                             <li class="page-item" th:with="urlBuilder1=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}">
                                 <a class="page-link"
                                    th:href="@{${urlBuilder1.replaceQueryParam('page', __${el}__).toUriString()}}"
@@ -102,26 +95,14 @@
                                                    th:href="@{${urlBuilder.replaceQueryParam('sort', 'id').toUriString()}}"
                                                    th:text="#{product.sort.popularity.asc}">Popularity ascend</a>
                                             </li>
-<!--                                            <li><a class="dropdown-item"
-                                                   th:href="@{${urlBuilder.replaceQueryParam('sort', 'id,desc').toUriString()}}"
-                                                   th:text="#{product.sort.popularity.desc}">Popularity descend</a>
-                                            </li>-->
                                             <li><a class="dropdown-item"
                                                    th:href="@{${urlBuilder.replaceQueryParam('sort', 'price').toUriString()}}"
                                                    th:text="#{product.sort.price.asc}">Price ascend</a>
                                             </li>
-<!--                                            <li><a class="dropdown-item"
-                                                   th:href="@{${urlBuilder.replaceQueryParam('sort', 'price').toUriString()}}"
-                                                   th:text="#{product.sort.price.desc}">Price descend</a>
-                                            </li>-->
                                             <li><a class="dropdown-item"
                                                    th:href="@{${urlBuilder.replaceQueryParam('sort', 'title').toUriString()}}"
                                                    th:text="#{product.sort.name.asc}">Name ascend</a>
                                             </li>
-<!--                                            <li><a class="dropdown-item"
-                                                   th:href="@{${urlBuilder.replaceQueryParam('sort', 'title, desc').toUriString()}}"
-                                                   th:text="#{product.sort.name.desc}">Name descend</a>
-                                            </li>-->
                                         </ul>
                                     </div>
                                 </div>
@@ -129,10 +110,8 @@
                         </div>
                     </ul>
                 </nav>
-
                 <div style="min-width: 18rem;" class="col card-deck my-2" th:if="${!products.isEmpty()}"
                      th:each="product : ${products}">
-                    <!--            <div class="col-lg-3 col-sm-6 mb-3" th:if="${!products.isEmpty()}" th:each="product : ${products}">-->
                     <div class="card">
                         <div sec:authorize="hasAuthority('ADMIN')"
                              class="admin d-flex justify-content-between border-bottom">
@@ -152,7 +131,6 @@
                             </button>
                         </div>
                         <div class="product-thumb">
-                            <!--                <img class="card-img-top" th:if="${!product.getImageUrl().isEmpty()}" th:src="${product.getImageUrl()}"-->
                             <a href="#" data-bs-toggle="modal" data-bs-target="#imgModal">
                                 <img class="card-img-top" th:if="${product.getImgUrl().isEmpty()}"
                                      th:src="@{https://d2gg9evh47fn9z.cloudfront.net/800px_COLOURBOX7389458.jpg}"
@@ -161,10 +139,7 @@
                                      th:src="@{${product.getImgUrl()}}"
                                      alt="Card image cap">
                             </a>
-
                         </div>
-
-
                         <div class="modal fade" id="imgModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                              aria-hidden="true">
                             <div class="modal-dialog modal-lg">
@@ -182,8 +157,6 @@
                                 </div>
                             </div>
                         </div>
-
-
                         <div class="card-body">
                             <h4 class="card-title" th:text="${product.getTitle()}"></h4>
                             <p class="card-text" th:text="${product.getDescription()}"></p>
@@ -201,7 +174,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div style="min-width: 18rem; max-height: 15rem;" class="col card-deck-add my-2"
                      sec:authorize="hasAuthority('ADMIN')">
                     <div class="card-add">
@@ -216,7 +188,6 @@
         </div>
     </div>
 </div>
-
 
 <div th:replace="fragments/footer :: footer"></div>
 </body>

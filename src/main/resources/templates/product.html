@@ -10,7 +10,6 @@
 
 <div class="container">
     <div class="row" style="margin-top:20px">
-<!--        <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">-->
         <div class="col-6 col-sm-offset-2 col-md-offset-3">
             <form autocomplete="off" th:object="${productForm}" class="form" method="POST">
                 <fieldset>
@@ -19,12 +18,15 @@
 
                     <div class="form-group">
                         <label th:text="#{product.name}"></label>
-                        <input type="text" th:field="*{title}" class="form-control input-lg" title="title" autofocus="true" />
-                        <div class="alert alert-danger error-alert" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+                        <input type="text" th:field="*{title}" class="form-control input-lg" title="title"
+                               autofocus="true"/>
+                        <div class="alert alert-danger error-alert" th:if="${#fields.hasErrors('title')}"
+                             th:errors="*{title}"></div>
                     </div>
                     <div class="form-group">
                         <label th:text="#{product.category}"></label>
-                        <select class="form-control input-lg" th:field="*{category.id}" name="category.id" autofocus="true">
+                        <select class="form-control input-lg" th:field="*{category.id}" name="category.id"
+                                autofocus="true">
                             <option value="0">select</option>
                             <option th:each="cat : ${categories}" th:value="${cat.id}"
                                     th:text="${cat.title}"></option>
@@ -40,24 +42,32 @@
                     </div>
                     <div class="form-group">
                         <label th:text="#{product.desc}"></label>
-                        <input type="text" th:field="*{description}" class="form-control input-lg" title="description" autofocus="false" />
-                        <div class="alert alert-danger error-alert" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+                        <input type="text" th:field="*{description}" class="form-control input-lg" title="description"
+                               autofocus="false"/>
+                        <div class="alert alert-danger error-alert" th:if="${#fields.hasErrors('description')}"
+                             th:errors="*{description}"></div>
                     </div>
                     <div class="form-group">
                         <label th:text="#{product.image_url}"></label>
-<!--                        <input type="url" th:field="*{imgUrl}" class="form-control input-lg" title="imgUrl" autofocus="false" />-->
-                        <input type="text" th:field="*{imgUrl}" class="form-control input-lg" title="imgUrl" autofocus="false" />
-                        <div class="alert alert-danger error-alert" th:if="${#fields.hasErrors('imgUrl')}" th:errors="*{imgUrl}"></div>
+                        <input type="text" th:field="*{imgUrl}" class="form-control input-lg" title="imgUrl"
+                               autofocus="false"/>
+                        <div class="alert alert-danger error-alert" th:if="${#fields.hasErrors('imgUrl')}"
+                             th:errors="*{imgUrl}"></div>
                     </div>
                     <div class="form-group">
                         <label th:text="#{product.price}"></label>
-                        <input type="search" th:field="*{price}" class="form-control input-lg" title="price" autofocus="false" />
-                        <div class="alert alert-danger error-alert" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+                        <input type="search" th:field="*{price}" class="form-control input-lg" title="price"
+                               autofocus="false"/>
+                        <div class="alert alert-danger error-alert" th:if="${#fields.hasErrors('price')}"
+                             th:errors="*{price}"></div>
                     </div>
-                    <h2>  </h2>
-                    <input th:if="${method} == 'new'" class="btn btn-outline-dark" type="submit" name="submit" th:action="@{/products/new}" th:value="#{product.confirm}"/>
-                    <input th:if="${method} == 'edit'" class="btn btn-outline-dark" type="submit" name="submit" th:action="@{/products/{productId}/edit}" th:value="#{product.save}"/>
-                    <input class="btn btn-outline-dark" type="submit" name="cancel" th:action="@{/products}" th:value="#{product.cancel}"/>
+                    <h2></h2>
+                    <input th:if="${method} == 'new'" class="btn btn-outline-dark" type="submit" name="submit"
+                           th:action="@{/products/new}" th:value="#{product.confirm}"/>
+                    <input th:if="${method} == 'edit'" class="btn btn-outline-dark" type="submit" name="submit"
+                           th:action="@{/products/{productId}/edit}" th:value="#{product.save}"/>
+                    <input class="btn btn-outline-dark" type="submit" name="cancel" th:action="@{/products}"
+                           th:value="#{product.cancel}"/>
                 </fieldset>
             </form>
         </div>
@@ -69,12 +79,9 @@
                  th:src="@{${productForm.getImgUrl()}}"
                  alt="Card image cap">
         </div>
-
     </div>
 </div>
 
 <div th:replace="fragments/footer :: footer"></div>
-
 </body>
-
 </html>
