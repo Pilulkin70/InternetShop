@@ -18,6 +18,9 @@ import ua.garmash.internetshop.service.ProductService;
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/products")
@@ -40,10 +43,9 @@ public class ProductController {
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("brands", brandService.findAll());
         model.addAttribute("page", productService.getPage().getNumber());
-        ArrayList<String> pageNumbers = new ArrayList<>(productService.getPage().getTotalPages());
-        for (int i = 0; i < productService.getPage().getTotalPages(); i++) {
-            pageNumbers.add(Integer.toString(i));
-        }
+        List<String> pageNumbers = IntStream.range(0, productService.getPage().getTotalPages())
+                .mapToObj(String::valueOf)
+                .collect(Collectors.toList());
         model.addAttribute("pages", pageNumbers);
         return "products";
     }
@@ -135,8 +137,6 @@ public class ProductController {
 
     @PostMapping("/new")
     public String newProduct(@ModelAttribute("productForm") ProductDto productForm, BindingResult bindingResult, Model model) {
-//		productValidator.validate(productForm, bindingResult);
-
         if (bindingResult.hasErrors()) {
             logger.error(String.valueOf(bindingResult.getFieldError()));
             model.addAttribute("method", "new");
@@ -166,8 +166,6 @@ public class ProductController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(value = "/{id}/edit", params = "submit")
     public String editProduct(@PathVariable("id") long productId, @ModelAttribute("productForm") ProductDto productForm, BindingResult bindingResult, Model model) {
-//		productValidator.validate(productForm, bindingResult);
-
         if (bindingResult.hasErrors()) {
             logger.error(String.valueOf(bindingResult.getFieldError()));
             model.addAttribute("method", "edit");

@@ -20,7 +20,6 @@ import java.util.Objects;
 @Controller
 @RequestMapping("/users")
 public class UserController {
-
     private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
     private final UserService userService;
     private final OrderService orderService;

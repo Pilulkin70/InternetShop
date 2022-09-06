@@ -40,6 +40,7 @@ public class ProductServiceImpl implements ProductService {
         return mapper.fromProductList(listOfProducts);
     }
 
+    @Override
     public Page getPage(){
         return page;
     }

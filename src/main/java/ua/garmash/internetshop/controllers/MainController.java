@@ -6,8 +6,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ua.garmash.internetshop.service.CategoryService;
-import ua.garmash.internetshop.service.ProductService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -15,12 +13,8 @@ import java.util.UUID;
 
 @Controller
 public class MainController {
-    private final ProductService productService;
-    private final CategoryService categoryService;
 
-    public MainController(ProductService productService, CategoryService categoryService) {
-        this.productService = productService;
-        this.categoryService = categoryService;
+    public MainController() {
     }
 
     @RequestMapping({"", "/"})
