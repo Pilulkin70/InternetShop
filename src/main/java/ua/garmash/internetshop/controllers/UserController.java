@@ -2,6 +2,7 @@ package ua.garmash.internetshop.controllers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,7 +25,7 @@ public class UserController {
     private final UserService userService;
     private final OrderService orderService;
 
-    public UserController(UserService userService, OrderService orderService) {
+    public UserController(@Lazy UserService userService, OrderService orderService) {
         this.userService = userService;
         this.orderService = orderService;
     }
