@@ -16,18 +16,15 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductMapper mapper = ProductMapper.MAPPER;
     private final ProductRepository productRepository;
-    private final UserService userService;
     private final BasketService basketService;
     private final CartService cartService;
 
     private static Page page;
 
     public ProductServiceImpl(ProductRepository productRepository,
-                              UserService userService,
                               BasketService basketService,
                               CartService cartService) {
         this.productRepository = productRepository;
-        this.userService = userService;
         this.basketService = basketService;
         this.cartService = cartService;
     }
